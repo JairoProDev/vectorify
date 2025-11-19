@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ArtifactRenderer } from '@/components/artifacts/artifact-renderer';
+import { CommentsSection } from '@/components/comments/comments-section';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
@@ -109,7 +110,7 @@ export default function ArtifactPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 space-y-8">
       <Button
         variant="ghost"
         size="sm"
@@ -125,6 +126,9 @@ export default function ArtifactPage() {
         data={artifact.content}
         onSave={handleSave}
       />
+
+      {/* Comments Section */}
+      <CommentsSection artifactId={artifactId} />
     </div>
   );
 }

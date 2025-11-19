@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 import {
   Zap,
   PanelLeftClose,
@@ -50,6 +51,8 @@ export function WorkspaceHeader({
 
       {/* Right Section */}
       <div className="ml-auto flex items-center gap-2">
+        <ThemeToggle />
+
         <Button variant="ghost" size="icon">
           <Settings className="h-4 w-4" />
         </Button>

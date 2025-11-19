@@ -32,6 +32,27 @@ const RoadmapEditor = dynamic(
   }
 );
 
+const UserPersonaEditor = dynamic(
+  () => import('./user-persona-editor').then((mod) => ({ default: mod.UserPersonaEditor })),
+  {
+    loading: () => <EditorSkeleton />,
+  }
+);
+
+const VisionMissionEditor = dynamic(
+  () => import('./vision-mission-editor').then((mod) => ({ default: mod.VisionMissionEditor })),
+  {
+    loading: () => <EditorSkeleton />,
+  }
+);
+
+const CompetitorAnalysisEditor = dynamic(
+  () => import('./competitor-analysis-editor').then((mod) => ({ default: mod.CompetitorAnalysisEditor })),
+  {
+    loading: () => <EditorSkeleton />,
+  }
+);
+
 interface ArtifactRendererProps {
   type: string;
   data: any;
@@ -55,6 +76,20 @@ export function ArtifactRenderer({ type, data, onSave, readOnly }: ArtifactRende
     case 'roadmap':
     case 'product-roadmap':
       return <RoadmapEditor data={data} onSave={onSave} readOnly={readOnly} />;
+
+    case 'user-persona':
+    case 'persona':
+      return <UserPersonaEditor data={data} onSave={onSave} readOnly={readOnly} />;
+
+    case 'vision-mission':
+    case 'vision':
+    case 'mission':
+      return <VisionMissionEditor data={data} onSave={onSave} readOnly={readOnly} />;
+
+    case 'competitor-analysis':
+    case 'competitive-analysis':
+    case 'competitors':
+      return <CompetitorAnalysisEditor data={data} onSave={onSave} readOnly={readOnly} />;
 
     default:
       return <DefaultEditor data={data} onSave={onSave} readOnly={readOnly} />;

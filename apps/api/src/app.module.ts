@@ -8,6 +8,8 @@ import { WorkspacesModule } from './modules/workspaces/workspaces.module';
 import { ArtifactsModule } from './modules/artifacts/artifacts.module';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { AIModule } from './modules/ai/ai.module';
+import { CommentsModule } from './modules/comments/comments.module';
+import { ActivityModule } from './modules/activity/activity.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { AIModule } from './modules/ai/ai.module';
     ArtifactsModule,
     TasksModule,
     AIModule,
+    CommentsModule,
+    ActivityModule,
   ],
   controllers: [AppController],
   providers: [AppService],

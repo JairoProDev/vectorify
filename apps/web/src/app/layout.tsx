@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import { ThemeProvider } from '@/components/theme/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.className, 'antialiased')}>{children}</body>
+      <body className={cn(inter.className, 'antialiased')}>
+        <ThemeProvider defaultTheme="system" storageKey="vectorify-theme">
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
