@@ -7,6 +7,7 @@ import { ProjectsModule } from './modules/projects/projects.module';
 import { WorkspacesModule } from './modules/workspaces/workspaces.module';
 import { ArtifactsModule } from './modules/artifacts/artifacts.module';
 import { TasksModule } from './modules/tasks/tasks.module';
+import { AIModule } from './modules/ai/ai.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
     ProjectsModule,
     ArtifactsModule,
     TasksModule,
+    AIModule,
   ],
   controllers: [AppController],
   providers: [AppService],
