@@ -6,6 +6,7 @@ import { WorkspaceHeader } from '@/components/workspace/workspace-header';
 import { Toaster } from '@/components/ui/toaster';
 import { CommandPalette } from '@/components/workspace/command-palette';
 import { QuickCreateDialog } from '@/components/workspace/quick-create-dialog';
+import { KeyboardShortcutsDialog } from '@/components/workspace/keyboard-shortcuts-dialog';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
 import { useState, useEffect } from 'react';
 
@@ -13,19 +14,39 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
   const { sidebarOpen, copilotOpen, toggleSidebar, toggleCopilot } = useWorkspaceStore();
   const [commandOpen, setCommandOpen] = useState(false);
   const [quickCreateOpen, setQuickCreateOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
 
-  // Keyboard shortcut for Quick Create (Ctrl+N / Cmd+N)
+  // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'n' && (e.metaKey || e.ctrlKey)) {
+      // Quick Create (Ctrl+N / Cmd+N)
+      if (e.key === 'n' && (e.metaKey || e.ctrlKey) && !e.shiftKey) {
         e.preventDefault();
         setQuickCreateOpen(true);
+      }
+
+      // Keyboard Shortcuts Help (Ctrl+/ / Cmd+/)
+      if (e.key === '/' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setShortcutsOpen(true);
+      }
+
+      // Toggle Sidebar (Ctrl+B / Cmd+B)
+      if (e.key === 'b' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        toggleSidebar();
+      }
+
+      // Toggle Copilot (Ctrl+\ / Cmd+\)
+      if (e.key === '\\' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        toggleCopilot();
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [toggleSidebar, toggleCopilot]);
 
   return (
     <>
@@ -63,6 +84,7 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
       <Toaster />
       <CommandPalette open={commandOpen} onOpenChange={setCommandOpen} />
       <QuickCreateDialog open={quickCreateOpen} onOpenChange={setQuickCreateOpen} />
+      <KeyboardShortcutsDialog open={shortcutsOpen} onOpenChange={setShortcutsOpen} />
     </>
   );
 }
