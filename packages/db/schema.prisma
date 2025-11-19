@@ -1,0 +1,329 @@
+// Vectorify - Database Schema
+// Este esquema define el "Project Graph" y toda la estructura de datos
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========================================
+// USUARIOS Y AUTENTICACIÓN
+// ========================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  avatar    String?
+
+  // Auth provider info
+  provider  String?  // "google", "github", "email"
+  providerId String? // ID del proveedor externo
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  workspaces       WorkspaceMember[]
+  createdProjects  Project[]         @relation("ProjectCreator")
+  assignedTasks    Task[]            @relation("TaskAssignee")
+  createdTasks     Task[]            @relation("TaskCreator")
+  comments         Comment[]
+  activityLogs     ActivityLog[]
+
+  @@index([email])
+  @@map("users")
+}
+
+// ========================================
+// WORKSPACES (Entornos de Trabajo)
+// ========================================
+
+model Workspace {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  avatar      String?
+
+  // Configuración
+  settings    Json     @default("{}")
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  members  WorkspaceMember[]
+  projects Project[]
+
+  @@index([slug])
+  @@map("workspaces")
+}
+
+model WorkspaceMember {
+  id          String   @id @default(cuid())
+  role        String   @default("member") // "owner", "admin", "member"
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  joinedAt    DateTime @default(now())
+
+  @@unique([userId, workspaceId])
+  @@index([userId])
+  @@index([workspaceId])
+  @@map("workspace_members")
+}
+
+// ========================================
+// PROYECTOS (El Núcleo del PDE)
+// ========================================
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String
+  description String?
+
+  // Stack usado (YC Startup, Book Author, etc.)
+  stack       String?
+
+  // Configuración y metadata
+  config      Json     @default("{}")
+  metadata    Json     @default("{}")
+
+  // Estado
+  status      String   @default("active") // "active", "archived", "deleted"
+
+  // Versionado (Git for Business)
+  version     Int      @default(1)
+  branch      String   @default("main")
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  creatorId   String
+  creator     User      @relation("ProjectCreator", fields: [creatorId], references: [id])
+
+  artifacts   Artifact[]
+  folders     Folder[]
+  tasks       Task[]
+  snapshots   ProjectSnapshot[]
+  activityLogs ActivityLog[]
+
+  @@unique([workspaceId, slug])
+  @@index([workspaceId])
+  @@index([creatorId])
+  @@index([status])
+  @@map("projects")
+}
+
+// Snapshots (Control de Versiones - Git for Business)
+model ProjectSnapshot {
+  id          String   @id @default(cuid())
+  name        String   // "Validación de problema completada"
+  description String?
+
+  // Snapshot del estado completo del proyecto
+  data        Json
+
+  // Branch info
+  branch      String   @default("main")
+  version     Int
+
+  createdAt   DateTime @default(now())
+
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([branch])
+  @@map("project_snapshots")
+}
+
+// ========================================
+// FOLDERS (Sistema de Archivos Semántico)
+// ========================================
+
+model Folder {
+  id          String   @id @default(cuid())
+  name        String
+  path        String   // "/Estrategia", "/Producto/Roadmap"
+
+  // Metadata
+  icon        String?
+  color       String?
+  order       Int      @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Self-referential (carpetas pueden tener subcarpetas)
+  parentId    String?
+  parent      Folder?   @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children    Folder[]  @relation("FolderHierarchy")
+
+  // Relaciones
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  artifacts   Artifact[]
+
+  @@unique([projectId, path])
+  @@index([projectId])
+  @@index([parentId])
+  @@map("folders")
+}
+
+// ========================================
+// ARTIFACTS (Los "Archivos" Inteligentes)
+// ========================================
+
+model Artifact {
+  id          String   @id @default(cuid())
+  name        String
+
+  // Tipo de artefacto (define el renderizador)
+  type        String   // "lean-canvas", "bmc", "roadmap", "persona", "swot", etc.
+
+  // Contenido estructurado (JSONB para flexibilidad)
+  content     Json     @default("{}")
+
+  // Metadata
+  icon        String?
+  order       Int      @default(0)
+
+  // Estado de colaboración
+  isLocked    Boolean  @default(false)
+  lockedBy    String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  folderId    String?
+  folder      Folder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
+
+  comments    Comment[]
+  tasks       Task[]    @relation("ArtifactTasks")
+
+  @@index([projectId])
+  @@index([folderId])
+  @@index([type])
+  @@map("artifacts")
+}
+
+// ========================================
+// TASKS (Gestión de Tareas - El PM Nativo)
+// ========================================
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+
+  // Estado
+  status      String   @default("todo") // "todo", "in_progress", "done", "blocked"
+  priority    String   @default("medium") // "low", "medium", "high", "urgent"
+
+  // Metadata
+  labels      String[] @default([])
+  dueDate     DateTime?
+
+  // Relaciones contextuales (De dónde nació la tarea)
+  sourceType  String?  // "artifact", "ai_suggestion", "manual"
+  sourceId    String?  // ID del artefacto si aplica
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  completedAt DateTime?
+
+  // Relaciones
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  creatorId   String
+  creator     User     @relation("TaskCreator", fields: [creatorId], references: [id])
+
+  assigneeId  String?
+  assignee    User?    @relation("TaskAssignee", fields: [assigneeId], references: [id])
+
+  artifacts   Artifact[] @relation("ArtifactTasks")
+  comments    Comment[]
+
+  @@index([projectId])
+  @@index([status])
+  @@index([assigneeId])
+  @@index([creatorId])
+  @@map("tasks")
+}
+
+// ========================================
+// COMMENTS (Colaboración)
+// ========================================
+
+model Comment {
+  id          String   @id @default(cuid())
+  content     String
+
+  // Puede ser un comentario en un artifact o en una task
+  artifactId  String?
+  artifact    Artifact? @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+
+  taskId      String?
+  task        Task?     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([artifactId])
+  @@index([taskId])
+  @@index([authorId])
+  @@map("comments")
+}
+
+// ========================================
+// ACTIVITY LOG (Auditoría y Time Travel)
+// ========================================
+
+model ActivityLog {
+  id          String   @id @default(cuid())
+  action      String   // "created", "updated", "deleted", "commented"
+  entityType  String   // "project", "artifact", "task", "comment"
+  entityId    String
+
+  // Data del cambio (para poder hacer "undo" o ver diffs)
+  changes     Json     @default("{}")
+
+  createdAt   DateTime @default(now())
+
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("activity_logs")
+}
