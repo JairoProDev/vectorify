@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ArtifactRenderer } from '@/components/artifacts/artifact-renderer';
 import { CommentsSection } from '@/components/comments/comments-section';
+import { ExportMenu } from '@/components/artifacts/export-menu';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
@@ -111,15 +112,18 @@ export default function ArtifactPage() {
 
   return (
     <div className="p-8 space-y-8">
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => router.push(`/workspace/projects/${projectId}`)}
-        className="mb-4"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Project
-      </Button>
+      <div className="flex items-center justify-between mb-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.push(`/workspace/projects/${projectId}`)}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Project
+        </Button>
+
+        <ExportMenu artifact={artifact} />
+      </div>
 
       <ArtifactRenderer
         type={artifact.type}
