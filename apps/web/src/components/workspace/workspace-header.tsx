@@ -53,9 +53,11 @@ export function WorkspaceHeader({
       <div className="ml-auto flex items-center gap-2">
         <ThemeToggle />
 
-        <Button variant="ghost" size="icon">
-          <Settings className="h-4 w-4" />
-        </Button>
+        <Link href="/workspace/settings">
+          <Button variant="ghost" size="icon">
+            <Settings className="h-4 w-4" />
+          </Button>
+        </Link>
 
         <Button variant="ghost" size="icon">
           <User className="h-4 w-4" />
