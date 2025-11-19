@@ -5,12 +5,27 @@ import { CopilotPanel } from '@/components/workspace/copilot-panel';
 import { WorkspaceHeader } from '@/components/workspace/workspace-header';
 import { Toaster } from '@/components/ui/toaster';
 import { CommandPalette } from '@/components/workspace/command-palette';
+import { QuickCreateDialog } from '@/components/workspace/quick-create-dialog';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function WorkspaceLayout({ children }: { children: React.ReactNode }) {
   const { sidebarOpen, copilotOpen, toggleSidebar, toggleCopilot } = useWorkspaceStore();
   const [commandOpen, setCommandOpen] = useState(false);
+  const [quickCreateOpen, setQuickCreateOpen] = useState(false);
+
+  // Keyboard shortcut for Quick Create (Ctrl+N / Cmd+N)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'n' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setQuickCreateOpen(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <>
@@ -47,6 +62,7 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
       {/* Global Components */}
       <Toaster />
       <CommandPalette open={commandOpen} onOpenChange={setCommandOpen} />
+      <QuickCreateDialog open={quickCreateOpen} onOpenChange={setQuickCreateOpen} />
     </>
   );
 }
