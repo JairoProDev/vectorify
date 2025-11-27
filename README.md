@@ -6,7 +6,7 @@ Vectorify es un **entorno de desarrollo de proyectos** que unifica estrategia, e
 
 ## ✨ ¿Qué es Vectorify?
 
-Así como los desarrolladores usan VS Code para escribir software, los fundadores y creadores usarán Vectorify para construir negocios y proyectos.
+Así como los desarrolladores usan VS Code con github copilot o cursor AI o Antigravity de google o Windsurf para escribir software, figma o canva para editar diseños y capcut para editar videos los fundadores y creadores usarán Vectorify para construir negocios y proyectos.
 
 ### El Problema que Resolvemos
 
@@ -46,16 +46,33 @@ pnpm install
 # 2. Levantar base de datos
 docker-compose up -d
 
-# 3. Configurar Prisma
+# 3. Configurar variables de entorno
+./scripts/setup-env.sh
+
+# 4. Configurar Prisma
 pnpm --filter @vectorify/db db:generate
 pnpm db:push
 
-# 4. (Opcional) Seed de datos demo
+# 5. (Opcional) Seed de datos demo
 pnpm --filter @vectorify/db db:seed
 
-# 5. Iniciar desarrollo
+# 6. Iniciar desarrollo
 pnpm dev
 ```
+
+## 🔐 Credenciales y Configuración
+
+**No necesitas crear credenciales manualmente.** El script `setup-env.sh` crea automáticamente todos los archivos `.env` necesarios con las credenciales de desarrollo.
+
+### Credenciales de Desarrollo (Auto-configuradas)
+
+- **PostgreSQL User:** `vectorify`
+- **PostgreSQL Password:** `vectorify_dev_password`
+- **PostgreSQL Database:** `vectorify_dev`
+- **PostgreSQL Port:** `5433`
+- **Redis Port:** `6379`
+
+Ver `CREDENTIALS.md` para más detalles.
 
 **Listo!** Abre:
 - Frontend: http://localhost:3000
@@ -188,7 +205,7 @@ Este proyecto es privado y de uso interno.
 
 ## 💡 Filosofía
 
-> "No somos una herramienta de ejecución (como ClickUp). Somos una herramienta de creación y estrategia. La ejecución es solo el output de una buena estrategia."
+> "No somos solo una herramienta de planeación como notion o como ClickUp para ejecución. Somos una herramienta de co-creación, planeación, estrategia y ejecución. La ejecución es solo el output de una buena estrategia."
 
 Vectorify no compite en el Océano Rojo de la gestión de tareas. Creamos el Océano Azul de la **Ingeniería de Negocios**.
 

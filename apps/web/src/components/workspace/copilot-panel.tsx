@@ -21,6 +21,7 @@ import {
   X,
 } from 'lucide-react';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
+import { useI18n } from '@/i18n/hooks';
 
 interface Message {
   id: string;
@@ -40,6 +41,7 @@ interface Suggestion {
 
 export function CopilotPanel() {
   const { currentProject, addNotification } = useWorkspaceStore();
+  const { t } = useI18n();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -117,7 +119,7 @@ export function CopilotPanel() {
 
     try {
       // Call AI backend
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/complete`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3004/api/v1'}/ai/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -176,10 +178,10 @@ export function CopilotPanel() {
   };
 
   const quickPrompts = [
-    { icon: Target, text: 'What should I focus on next?', color: 'text-blue-600' },
-    { icon: Lightbulb, text: 'Generate ideas for my product', color: 'text-yellow-600' },
-    { icon: TrendingUp, text: 'Analyze my market strategy', color: 'text-green-600' },
-    { icon: Zap, text: 'Help me prioritize tasks', color: 'text-purple-600' },
+    { icon: Target, text: t('copilot.suggestions.focus'), color: 'text-blue-600' },
+    { icon: Lightbulb, text: t('copilot.suggestions.ideas'), color: 'text-yellow-600' },
+    { icon: TrendingUp, text: t('copilot.suggestions.strategy'), color: 'text-green-600' },
+    { icon: Zap, text: t('copilot.suggestions.prioritize'), color: 'text-purple-600' },
   ];
 
   const dismissSuggestion = (id: string) => {
@@ -213,7 +215,7 @@ export function CopilotPanel() {
       {/* Header */}
       <div className="mb-4 flex items-center gap-2">
         <Brain className="h-5 w-5 text-primary" />
-        <h3 className="font-semibold">Vector AI Copilot</h3>
+        <h3 className="font-semibold">{t('copilot.title')}</h3>
         {isAnalyzing && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
       </div>
 
@@ -227,14 +229,14 @@ export function CopilotPanel() {
             <div className="flex-1">
               <span className="text-sm font-medium">Analyzing {currentProject.name}</span>
               <p className="text-xs text-muted-foreground mt-0.5">
-                {currentProject.stack || 'Custom Project'}
+                {currentProject.stack || t('project.customProject')}
               </p>
             </div>
           </div>
         </div>
       ) : (
         <div className="mb-4 rounded-lg border border-muted p-3 text-center">
-          <p className="text-sm text-muted-foreground">No project selected</p>
+          <p className="text-sm text-muted-foreground">{t('copilot.noProjectSelected')}</p>
         </div>
       )}
 
@@ -280,17 +282,17 @@ export function CopilotPanel() {
       {/* Chat Messages */}
       <div className="flex-1 mb-4 min-h-0">
         <h4 className="mb-2 text-xs font-semibold uppercase text-muted-foreground">
-          Chat with Vector
+          {t('copilot.chatTitle')}
         </h4>
         <ScrollArea className="h-full rounded-lg border p-3">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center py-8">
               <Brain className="h-12 w-12 text-muted-foreground/50 mb-3" />
               <p className="text-sm text-muted-foreground mb-2">
-                Hi! I'm Vector, your AI assistant.
+                {t('copilot.greeting')}
               </p>
               <p className="text-xs text-muted-foreground">
-                Ask me anything about your project!
+                {t('copilot.greetingDesc')}
               </p>
             </div>
           ) : (
@@ -352,7 +354,7 @@ export function CopilotPanel() {
       <div className="space-y-2">
         <div className="flex gap-2">
           <Textarea
-            placeholder="Ask Vector anything..."
+            placeholder={t('copilot.placeholder')}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
@@ -378,7 +380,7 @@ export function CopilotPanel() {
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          Press Enter to send, Shift+Enter for new line
+          {t('copilot.sendHint')}
         </p>
       </div>
     </div>

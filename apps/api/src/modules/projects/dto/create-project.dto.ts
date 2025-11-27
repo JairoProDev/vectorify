@@ -17,15 +17,15 @@ export class CreateProjectDto {
   @IsOptional()
   description?: string;
 
-  @ApiProperty({ example: 'workspace-id-123' })
+  @ApiProperty({ example: 'workspace-id-123', required: false })
   @IsString()
-  @IsNotEmpty()
-  workspaceId: string;
+  @IsOptional()
+  workspaceId?: string;
 
-  @ApiProperty({ example: 'user-id-123' })
+  @ApiProperty({ example: 'user-id-123', required: false })
   @IsString()
-  @IsNotEmpty()
-  creatorId: string;
+  @IsOptional()
+  creatorId?: string;
 
   @ApiProperty({ example: 'yc-startup', required: false })
   @IsString()

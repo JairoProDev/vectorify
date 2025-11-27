@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
+import { useI18n } from '@/i18n/hooks';
 
 interface Folder {
   id: string;
@@ -34,6 +35,7 @@ interface Artifact {
 export function Sidebar() {
   const router = useRouter();
   const { currentProject, addNotification } = useWorkspaceStore();
+  const { t } = useI18n();
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
   const [folders, setFolders] = useState<Folder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -122,7 +124,7 @@ export function Sidebar() {
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search files..."
+            placeholder={t('workspace.searchFiles')}
             className="pl-8"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -216,7 +218,7 @@ export function Sidebar() {
           onClick={() => router.push('/workspace/projects/new')}
         >
           <Plus className="h-4 w-4" />
-          New Artifact
+          {t('workspace.newArtifact')}
         </Button>
       </div>
     </div>

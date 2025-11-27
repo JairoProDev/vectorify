@@ -3,6 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
+import { LanguageSelector } from '@/components/language/language-selector';
+import { useI18n } from '@/i18n/hooks';
 import {
   Zap,
   PanelLeftClose,
@@ -27,6 +29,8 @@ export function WorkspaceHeader({
   sidebarOpen,
   copilotOpen,
 }: WorkspaceHeaderProps) {
+  const { t } = useI18n();
+
   return (
     <header className="flex h-14 items-center border-b px-4">
       {/* Left Section */}
@@ -46,12 +50,13 @@ export function WorkspaceHeader({
 
         <Separator orientation="vertical" className="h-6" />
 
-        <span className="text-sm text-muted-foreground">Demo Workspace</span>
+        <span className="text-sm text-muted-foreground">{t('workspace.demoWorkspace')}</span>
       </div>
 
       {/* Right Section */}
       <div className="ml-auto flex items-center gap-2">
         <ThemeToggle />
+        <LanguageSelector />
 
         <Link href="/workspace/settings">
           <Button variant="ghost" size="icon">

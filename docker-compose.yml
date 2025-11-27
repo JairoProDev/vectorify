@@ -6,7 +6,7 @@ services:
     container_name: vectorify-postgres
     restart: unless-stopped
     ports:
-      - '5432:5432'
+      - '5433:5432'
     environment:
       POSTGRES_USER: vectorify
       POSTGRES_PASSWORD: vectorify_dev_password

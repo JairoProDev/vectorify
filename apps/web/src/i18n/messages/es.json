@@ -1,0 +1,85 @@
+{
+  "common": {
+    "welcome": "Bienvenido a Vectorify",
+    "description": "Tu Entorno de Desarrollo de Proyectos. Comienza a construir con frameworks probados y asistencia de IA.",
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "search": "Buscar",
+    "settings": "Configuración",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "reset": "Restablecer",
+    "optional": "Opcional"
+  },
+  "workspace": {
+    "title": "Espacio de Trabajo",
+    "demoWorkspace": "Espacio de Trabajo Demo",
+    "newProject": "Nuevo Proyecto",
+    "recentProjects": "Proyectos Recientes",
+    "noProjects": "Aún no hay proyectos. ¡Crea tu primer proyecto para comenzar!",
+    "quickStart": "Inicio Rápido",
+    "searchFiles": "Buscar archivos...",
+    "newArtifact": "Nuevo Artefacto"
+  },
+  "project": {
+    "create": "Crear Nuevo Proyecto",
+    "name": "Nombre del Proyecto",
+    "description": "Descripción",
+    "stack": "Stack",
+    "chooseStack": "Elige tu Stack",
+    "projectDetails": "Dale un nombre y descripción a tu proyecto",
+    "ycStartup": "Startup YC",
+    "ycStartupDesc": "Lanza una startup con la metodología de Y Combinator",
+    "bookAuthor": "Autor de Libros",
+    "bookAuthorDesc": "Escribe y estructura tu libro desde la idea hasta el manuscrito",
+    "customProject": "Proyecto Personalizado",
+    "customProjectDesc": "Comienza con un lienzo en blanco y construye tu propio stack",
+    "creating": "Creando...",
+    "createError": "Error al crear el proyecto. Por favor, inténtalo de nuevo.",
+    "deleteConfirm": "¿Estás seguro de que quieres eliminar este proyecto? Esta acción no se puede deshacer.",
+    "deleteSuccess": "Proyecto eliminado exitosamente",
+    "updateSuccess": "Proyecto actualizado exitosamente"
+  },
+  "settings": {
+    "title": "Configuración",
+    "project": "Proyecto",
+    "workspace": "Espacio de Trabajo",
+    "notifications": "Notificaciones",
+    "team": "Equipo",
+    "ai": "IA",
+    "projectInfo": "Información del Proyecto",
+    "projectInfoDesc": "Actualiza la información básica de tu proyecto",
+    "dangerZone": "Zona de Peligro",
+    "dangerZoneDesc": "Acciones irreversibles para este proyecto",
+    "deleteProject": "Eliminar Proyecto",
+    "deleteProjectDesc": "Una vez que elimines un proyecto, no hay vuelta atrás."
+  },
+  "copilot": {
+    "title": "Vector AI Copilot",
+    "noProjectSelected": "No hay proyecto seleccionado",
+    "chatTitle": "Chatea con Vector",
+    "greeting": "¡Hola! Soy Vector, tu asistente de IA.",
+    "greetingDesc": "¡Pregúntame lo que quieras sobre tu proyecto!",
+    "placeholder": "Pregunta a Vector lo que quieras...",
+    "sendHint": "Presiona Enter para enviar, Shift+Enter para nueva línea",
+    "suggestions": {
+      "focus": "¿En qué debería enfocarme ahora?",
+      "ideas": "Genera ideas para mi producto",
+      "strategy": "Analiza mi estrategia de mercado",
+      "prioritize": "Ayúdame a priorizar tareas"
+    }
+  },
+  "language": {
+    "select": "Seleccionar Idioma",
+    "current": "Idioma Actual"
+  }
+}

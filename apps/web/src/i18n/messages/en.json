@@ -1,0 +1,85 @@
+{
+  "common": {
+    "welcome": "Welcome to Vectorify",
+    "description": "Your Project Development Environment. Start building with proven frameworks and AI assistance.",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "settings": "Settings",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset",
+    "optional": "Optional"
+  },
+  "workspace": {
+    "title": "Workspace",
+    "demoWorkspace": "Demo Workspace",
+    "newProject": "New Project",
+    "recentProjects": "Recent Projects",
+    "noProjects": "No projects yet. Create your first project to get started!",
+    "quickStart": "Quick Start",
+    "searchFiles": "Search files...",
+    "newArtifact": "New Artifact"
+  },
+  "project": {
+    "create": "Create New Project",
+    "name": "Project Name",
+    "description": "Description",
+    "stack": "Stack",
+    "chooseStack": "Choose Your Stack",
+    "projectDetails": "Give your project a name and description",
+    "ycStartup": "YC Startup",
+    "ycStartupDesc": "Launch a startup with the Y Combinator methodology",
+    "bookAuthor": "Book Author",
+    "bookAuthorDesc": "Write and structure your book from idea to manuscript",
+    "customProject": "Custom Project",
+    "customProjectDesc": "Start with a blank canvas and build your own stack",
+    "creating": "Creating...",
+    "createError": "Failed to create project. Please try again.",
+    "deleteConfirm": "Are you sure you want to delete this project? This action cannot be undone.",
+    "deleteSuccess": "Project deleted successfully",
+    "updateSuccess": "Project updated successfully"
+  },
+  "settings": {
+    "title": "Settings",
+    "project": "Project",
+    "workspace": "Workspace",
+    "notifications": "Notifications",
+    "team": "Team",
+    "ai": "AI",
+    "projectInfo": "Project Information",
+    "projectInfoDesc": "Update your project's basic information",
+    "dangerZone": "Danger Zone",
+    "dangerZoneDesc": "Irreversible actions for this project",
+    "deleteProject": "Delete Project",
+    "deleteProjectDesc": "Once you delete a project, there is no going back."
+  },
+  "copilot": {
+    "title": "Vector AI Copilot",
+    "noProjectSelected": "No project selected",
+    "chatTitle": "Chat with Vector",
+    "greeting": "Hi! I'm Vector, your AI assistant.",
+    "greetingDesc": "Ask me anything about your project!",
+    "placeholder": "Ask Vector anything...",
+    "sendHint": "Press Enter to send, Shift+Enter for new line",
+    "suggestions": {
+      "focus": "What should I focus on next?",
+      "ideas": "Generate ideas for my product",
+      "strategy": "Analyze my market strategy",
+      "prioritize": "Help me prioritize tasks"
+    }
+  },
+  "language": {
+    "select": "Select Language",
+    "current": "Current Language"
+  }
+}

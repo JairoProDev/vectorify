@@ -9,40 +9,46 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Rocket, BookOpen, Lightbulb, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { projectsAPI } from '@/lib/api/projects';
+import { useI18n } from '@/i18n/hooks';
+import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
 
-const STACKS = [
-  {
-    id: 'yc-startup',
-    name: 'YC Startup',
-    description: 'Launch a startup with the Y Combinator methodology',
-    icon: Rocket,
-    color: 'text-orange-500',
-  },
-  {
-    id: 'book-author',
-    name: 'Book Author',
-    description: 'Write and structure your book from idea to manuscript',
-    icon: BookOpen,
-    color: 'text-blue-500',
-  },
-  {
-    id: 'custom',
-    name: 'Custom Project',
-    description: 'Start with a blank canvas and build your own stack',
-    icon: Lightbulb,
-    color: 'text-purple-500',
-  },
-];
+// Stacks will be defined inside component to use translations
 
 export default function NewProjectPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const preselectedStack = searchParams.get('stack');
+  const { t } = useI18n();
+  const { addNotification } = useWorkspaceStore();
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedStack, setSelectedStack] = useState(preselectedStack || 'yc-startup');
   const [isCreating, setIsCreating] = useState(false);
+
+  const STACKS = [
+    {
+      id: 'yc-startup',
+      name: t('project.ycStartup'),
+      description: t('project.ycStartupDesc'),
+      icon: Rocket,
+      color: 'text-orange-500',
+    },
+    {
+      id: 'book-author',
+      name: t('project.bookAuthor'),
+      description: t('project.bookAuthorDesc'),
+      icon: BookOpen,
+      color: 'text-blue-500',
+    },
+    {
+      id: 'custom',
+      name: t('project.customProject'),
+      description: t('project.customProjectDesc'),
+      icon: Lightbulb,
+      color: 'text-purple-500',
+    },
+  ];
 
   const handleCreate = async () => {
     if (!name.trim()) return;
@@ -56,21 +62,23 @@ export default function NewProjectPage() {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
 
-      // TODO: Get actual workspace and user IDs from auth context
+      // Backend will automatically create demo workspace and user if not provided
       const project = await projectsAPI.create({
         name,
         slug,
         description,
         stack: selectedStack === 'custom' ? undefined : selectedStack,
-        workspaceId: 'demo-workspace-id', // Replace with actual workspace ID
-        creatorId: 'demo-user-id', // Replace with actual user ID
       });
 
       // Redirect to the new project
       router.push(`/workspace/projects/${project.id}`);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to create project:', error);
-      alert('Failed to create project. Please try again.');
+      addNotification({
+        type: 'error',
+        title: 'Error',
+        message: error?.message || t('project.createError'),
+      });
     } finally {
       setIsCreating(false);
     }
@@ -84,18 +92,18 @@ export default function NewProjectPage() {
           <Link href="/workspace">
             <Button variant="ghost" size="sm" className="mb-4 gap-2">
               <ArrowLeft className="h-4 w-4" />
-              Back to Workspace
+              {t('common.back')}
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold mb-2">Create New Project</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('project.create')}</h1>
           <p className="text-muted-foreground">
-            Choose a stack to get started with proven frameworks and structures
+            {t('project.chooseStack')}
           </p>
         </div>
 
         {/* Stack Selection */}
         <div className="mb-8">
-          <Label className="mb-4 block text-base">Choose Your Stack</Label>
+          <Label className="mb-4 block text-base">{t('project.chooseStack')}</Label>
           <div className="grid gap-4 md:grid-cols-3">
             {STACKS.map((stack) => {
               const Icon = stack.icon;
@@ -123,14 +131,14 @@ export default function NewProjectPage() {
         {/* Project Details */}
         <Card>
           <CardHeader>
-            <CardTitle>Project Details</CardTitle>
+            <CardTitle>{t('project.projectDetails')}</CardTitle>
             <CardDescription>
-              Give your project a name and description
+              {t('project.projectDetails')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="name">Project Name *</Label>
+              <Label htmlFor="name">{t('project.name')} *</Label>
               <Input
                 id="name"
                 placeholder="My Awesome Startup"
@@ -141,7 +149,7 @@ export default function NewProjectPage() {
             </div>
 
             <div>
-              <Label htmlFor="description">Description (Optional)</Label>
+              <Label htmlFor="description">{t('project.description')} ({t('common.optional')})</Label>
               <Input
                 id="description"
                 placeholder="A brief description of your project..."
@@ -157,10 +165,10 @@ export default function NewProjectPage() {
                 onClick={handleCreate}
                 disabled={!name.trim() || isCreating}
               >
-                {isCreating ? 'Creating...' : 'Create Project'}
+                {isCreating ? t('project.creating') : t('project.create')}
               </Button>
               <Link href="/workspace">
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline">{t('common.cancel')}</Button>
               </Link>
             </div>
           </CardContent>

@@ -37,7 +37,9 @@ export class AIService {
           throw new BadRequestException(`Unsupported provider: ${provider}`);
       }
     } catch (error) {
-      this.logger.error(`AI completion failed: ${error.message}`, error.stack);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorStack = error instanceof Error ? error.stack : undefined;
+      this.logger.error(`AI completion failed: ${errorMessage}`, errorStack);
       throw error;
     }
   }

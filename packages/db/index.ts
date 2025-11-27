@@ -1,11 +1,9 @@
-import { PrismaClient } from './generated/client';
+import { PrismaClient } from '@prisma/client';
 
 // Singleton pattern para Prisma Client
 // Evita múltiples instancias en desarrollo (hot reload)
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined;
-};
+const globalForPrisma = globalThis as any;
 
 export const prisma =
   globalForPrisma.prisma ??
@@ -21,4 +19,4 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Re-exportar tipos generados
-export * from './generated/client';
+export * from '@prisma/client';

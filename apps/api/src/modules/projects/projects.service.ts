@@ -8,7 +8,52 @@ export class ProjectsService {
   constructor(private readonly db: DatabaseService) {}
 
   async create(createProjectDto: CreateProjectDto) {
-    const { name, slug, description, workspaceId, creatorId, stack, config } = createProjectDto;
+    let { name, slug, description, workspaceId, creatorId, stack, config } = createProjectDto;
+
+    // Get or create demo workspace
+    if (!workspaceId) {
+      let demoWorkspace = await this.db.workspace.findUnique({
+        where: { slug: 'demo-workspace' },
+      });
+
+      if (!demoWorkspace) {
+        demoWorkspace = await this.db.workspace.create({
+          data: {
+            name: 'Demo Workspace',
+            slug: 'demo-workspace',
+            description: 'Default workspace for development',
+          },
+        });
+      }
+      workspaceId = demoWorkspace.id;
+    }
+
+    // Get or create demo user
+    if (!creatorId) {
+      let demoUser = await this.db.user.findUnique({
+        where: { email: 'demo@vectorify.dev' },
+      });
+
+      if (!demoUser) {
+        demoUser = await this.db.user.create({
+          data: {
+            email: 'demo@vectorify.dev',
+            name: 'Demo User',
+            provider: 'demo',
+          },
+        });
+
+        // Add user to workspace
+        await this.db.workspaceMember.create({
+          data: {
+            userId: demoUser.id,
+            workspaceId,
+            role: 'owner',
+          },
+        });
+      }
+      creatorId = demoUser.id;
+    }
 
     // Create project with initial folder structure based on stack
     const project = await this.db.project.create({
