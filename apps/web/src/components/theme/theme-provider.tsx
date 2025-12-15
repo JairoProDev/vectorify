@@ -8,6 +8,9 @@ interface ThemeProviderProps {
   children: React.ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
+  attribute?: string;
+  enableSystem?: boolean;
+  disableTransitionOnChange?: boolean;
 }
 
 interface ThemeProviderState {
@@ -24,9 +27,11 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'system',
+  defaultTheme = 'dark',
   storageKey = 'vectorify-theme',
-  ...props
+  attribute = 'class',
+  enableSystem = false,
+  disableTransitionOnChange = false,
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
   const [mounted, setMounted] = useState(false);
@@ -44,26 +49,43 @@ export function ThemeProvider({
 
     const root = window.document.documentElement;
 
-    root.classList.remove('light', 'dark');
-
-    if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-        .matches
-        ? 'dark'
-        : 'light';
-
-      root.classList.add(systemTheme);
-      return;
+    // Disable transitions during theme change
+    if (disableTransitionOnChange) {
+      root.style.setProperty('transition', 'none');
     }
 
-    root.classList.add(theme);
-  }, [theme, mounted]);
+    root.classList.remove('light', 'dark');
+
+    let appliedTheme = theme;
+
+    if (theme === 'system' && enableSystem) {
+      appliedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    } else if (theme === 'system') {
+      // If system theme is not enabled, default to dark
+      appliedTheme = 'dark';
+    }
+
+    if (attribute === 'class') {
+      root.classList.add(appliedTheme);
+    } else {
+      root.setAttribute(attribute, appliedTheme);
+    }
+
+    // Re-enable transitions
+    if (disableTransitionOnChange) {
+      // Force reflow
+      root.offsetHeight;
+      root.style.removeProperty('transition');
+    }
+  }, [theme, mounted, attribute, enableSystem, disableTransitionOnChange]);
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme);
-      setTheme(theme);
+    setTheme: (newTheme: Theme) => {
+      localStorage.setItem(storageKey, newTheme);
+      setTheme(newTheme);
     },
   };
 
@@ -72,7 +94,7 @@ export function ThemeProvider({
   }
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={value}>
       {children}
     </ThemeProviderContext.Provider>
   );

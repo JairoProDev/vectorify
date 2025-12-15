@@ -20,6 +20,766 @@
     "reset": "Reset",
     "optional": "Optional"
   },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "howItWorks": "How It Works",
+      "pricing": "Pricing",
+      "testimonials": "Testimonials",
+      "faq": "FAQ",
+      "cta": "Start Free"
+    },
+    "hero": {
+      "badge": "The Future of Project Development",
+      "title": {
+        "line1": "From Paralysis to Action",
+        "line2": "In 10 Minutes"
+      },
+      "subtitle": "Vectorify is the strategic AI copilot that transforms your chaos of ideas into an executable roadmap. No generic templates. No analysis paralysis. Just clarity and momentum.",
+      "cta": {
+        "primary": "Start Free Now",
+        "secondary": "Watch Demo"
+      },
+      "trust": {
+        "users": "10,000+ founders",
+        "rating": "4.9/5 on Product Hunt",
+        "noCard": "No credit card required"
+      },
+      "scroll": "Scroll to explore"
+    },
+    "trust": {
+      "title": "Trusted by founders from leading accelerators and universities",
+      "featured": "Featured in"
+    },
+    "problem": {
+      "badge": "The Crisis",
+      "title": {
+        "line1": "Brilliant Ideas Die",
+        "line2": "In Notebooks"
+      },
+      "subtitle": "Every year, 70 million people have a business idea. Less than 5% execute beyond month 3. Not because of bad ideas, but because of bad strategic execution.",
+      "cycle": {
+        "day1": {
+          "day": "Day 1",
+          "text": "\"I'm going to change the world!\""
+        },
+        "day7": {
+          "day": "Day 7",
+          "text": "23 Notion pages, 0 real users"
+        },
+        "day30": {
+          "day": "Day 30",
+          "text": "7 Lean Canvas versions, total paralysis"
+        },
+        "day90": {
+          "day": "Day 90",
+          "text": "Abandoned project, back to corporate"
+        }
+      },
+      "fragmentation": {
+        "title": "Tool Fragmentation",
+        "desc": "Strategy in Notion, tasks in ClickUp, ideas in ChatGPT. No single source of truth."
+      },
+      "paralysis": {
+        "title": "Analysis Paralysis",
+        "desc": "4 months 'planning', 0 executing. Blank page syndrome every time."
+      },
+      "context": {
+        "title": "No Context",
+        "desc": "ChatGPT has no memory. Isolated decisions without strategic vision."
+      },
+      "failure": {
+        "title": "High Failure Rate",
+        "desc": "90% of startups fail. Not for bad ideas, but for poor execution."
+      },
+      "tools": "tools",
+      "months": "months",
+      "memory": "memory",
+      "fail": "fail",
+      "statement": {
+        "prefix": "It's not a lack of talent.",
+        "highlight": "It's a lack of SYSTEM."
+      }
+    },
+    "solution": {
+      "badge": "The Game Changer",
+      "title": {
+        "line1": "Vector: Your Strategic",
+        "line2": "Operating System"
+      },
+      "subtitle": "Vectorify is the first Project Development Environment that turns the emotional and cognitive cost of starting a project from INFINITE to ZERO.",
+      "not": {
+        "title": "What Vector is NOT:",
+        "notion": "Not another Notion with AI",
+        "chatbot": "Not a smarter chatbot",
+        "productivity": "Not a productivity tool",
+        "course": "Not a course or template",
+        "tasks": "Not just task management"
+      },
+      "is": {
+        "title": "What Vector IS:",
+        "copilot": "A strategic copilot that thinks with you 24/7",
+        "translator": "A universal translator from chaos to structure to action",
+        "living": "A living system where your artifacts evolve with you",
+        "coach": "An accountability coach that pushes you when you're stuck",
+        "truth": "The single source of truth for your entire project"
+      },
+      "pillars": {
+        "title": "The 5 Pillars of Vectorify",
+        "graph": {
+          "title": "Project Graph",
+          "desc": "Semantically connected data, not loose files"
+        },
+        "copilot": {
+          "title": "AI Copilot",
+          "desc": "7 specialized agents working for you"
+        },
+        "strategy": {
+          "title": "Strategy-as-Code",
+          "desc": "Version control for your business strategy"
+        },
+        "stacks": {
+          "title": "Smart Stacks",
+          "desc": "Expert frameworks to start in seconds"
+        },
+        "multiplayer": {
+          "title": "Multiplayer",
+          "desc": "Real-time collaboration like Figma"
+        }
+      },
+      "analogy": {
+        "prefix": "Just as developers use",
+        "middle": "for code, founders will use",
+        "suffix": "to build businesses."
+      }
+    },
+    "features": {
+      "badge": "10x Better",
+      "title": {
+        "line1": "Everything You Need",
+        "line2": "To Build Your Vision"
+      },
+      "subtitle": "Vectorify combines the best of strategic planning, project execution, and AI assistance in one unified workspace.",
+      "items": {
+        "strategyCode": {
+          "title": "Strategy-as-Code",
+          "desc": "Branch, merge, and time-travel through your strategy like code."
+        },
+        "aiCopilot": {
+          "title": "AI Copilot",
+          "desc": "7 specialized agents that understand your entire project context."
+        },
+        "projectGraph": {
+          "title": "Project Graph",
+          "desc": "All your data semantically connected, not fragmented files."
+        },
+        "smartStacks": {
+          "title": "Smart Stacks",
+          "desc": "Start with expert frameworks: YC Startup, Book Author, and more."
+        },
+        "multiplayer": {
+          "title": "Real-time Multiplayer",
+          "desc": "See your team's cursors, collaborate like in Figma."
+        },
+        "versionControl": {
+          "title": "Version Control",
+          "desc": "Experiment without fear. Roll back anytime."
+        },
+        "validation": {
+          "title": "Validation Engine",
+          "desc": "Test your hypotheses with confidence scores."
+        },
+        "security": {
+          "title": "Enterprise Security",
+          "desc": "SOC 2 compliant, encrypted, GDPR ready."
+        }
+      },
+      "comparison": {
+        "title": "How We Compare",
+        "feature": "Feature",
+        "rows": {
+          "strategy": {
+            "name": "Strategy Planning",
+            "notion": "yes",
+            "clickup": "no",
+            "chatgpt": "no",
+            "vectorify": "yes"
+          },
+          "execution": {
+            "name": "Task Execution",
+            "notion": "partial",
+            "clickup": "yes",
+            "chatgpt": "no",
+            "vectorify": "yes"
+          },
+          "aiContext": {
+            "name": "Contextual AI",
+            "notion": "no",
+            "clickup": "no",
+            "chatgpt": "partial",
+            "vectorify": "yes"
+          },
+          "connectedData": {
+            "name": "Connected Data",
+            "notion": "no",
+            "clickup": "no",
+            "chatgpt": "no",
+            "vectorify": "yes"
+          },
+          "versionControl": {
+            "name": "Version Control",
+            "notion": "no",
+            "clickup": "no",
+            "chatgpt": "no",
+            "vectorify": "yes"
+          },
+          "stacks": {
+            "name": "Expert Stacks",
+            "notion": "partial",
+            "clickup": "partial",
+            "chatgpt": "no",
+            "vectorify": "yes"
+          }
+        }
+      }
+    },
+    "howItWorks": {
+      "badge": "Simple & Powerful",
+      "title": {
+        "line1": "From Idea to Execution",
+        "line2": "In 4 Simple Steps"
+      },
+      "subtitle": "Vectorify guides you from the chaos of an idea to a validated, executable plan. Every step is designed to move you forward.",
+      "steps": {
+        "tell": {
+          "title": "Tell Vector Your Idea",
+          "desc": "Describe your idea in plain language. Vector understands context, market, and intent.",
+          "features": {
+            "a": "Natural language input",
+            "b": "Intent parsing and analysis",
+            "c": "Market and competitor detection"
+          }
+        },
+        "generate": {
+          "title": "Get Your Strategic Foundation",
+          "desc": "In 2 minutes, Vector generates your personalized Lean Canvas, critical questions, and first mission.",
+          "features": {
+            "a": "Custom Lean Canvas",
+            "b": "Critical strategic questions",
+            "c": "First executable mission"
+          }
+        },
+        "execute": {
+          "title": "Execute with AI Guidance",
+          "desc": "Vector becomes your compass. Daily briefs, progress tracking, and blockers detection.",
+          "features": {
+            "a": "Daily priority briefs",
+            "b": "Progress tracking",
+            "c": "Blocker detection"
+          }
+        },
+        "iterate": {
+          "title": "Iterate & Pivot",
+          "desc": "When you pivot, Vector doesn't lose your work. Strategic branches, side-by-side comparison, and auto-updates.",
+          "features": {
+            "a": "Strategic branches",
+            "b": "Evidence-based pivots",
+            "c": "Auto-updated artifacts"
+          }
+        }
+      },
+      "quote": "Vector doesn't give you motivation. It gives you a SYSTEM."
+    },
+    "agents": {
+      "badge": "Meet Your Team",
+      "title": {
+        "line1": "7 AI Experts",
+        "line2": "Working for You"
+      },
+      "subtitle": "Not a chatbot. Your team of specialized experts that understand your complete project context and act proactively.",
+      "expertise": "Expertise",
+      "intervention": "Example Intervention",
+      "list": {
+        "strategist": {
+          "name": "Business Strategist",
+          "role": "Your strategic brain",
+          "personality": "Direct, data-driven, zero BS",
+          "skills": {
+            "a": "Lean Canvas",
+            "b": "Market sizing",
+            "c": "Positioning",
+            "d": "Pricing",
+            "e": "Go-to-market"
+          },
+          "example": "Your problem hypothesis changed 3 times this week. That's a red flag. Do you really understand your user?"
+        },
+        "productManager": {
+          "name": "Product Manager",
+          "role": "Your product brain",
+          "personality": "Pragmatic, user-obsessed, brutal with scope",
+          "skills": {
+            "a": "Feature prioritization",
+            "b": "User stories",
+            "c": "Roadmap planning",
+            "d": "MVP scope",
+            "e": "PMF assessment"
+          },
+          "example": "That feature does NOT go in the MVP. It's adding 3 weeks of dev for something 5% of users will use."
+        },
+        "marketAnalyst": {
+          "name": "Market Analyst",
+          "role": "Your market intelligence",
+          "personality": "Obsessive, paranoid (good), always scanning",
+          "skills": {
+            "a": "Competitor analysis",
+            "b": "Market trends",
+            "c": "Customer segmentation",
+            "d": "Channel strategy",
+            "e": "Industry insights"
+          },
+          "example": "Your #1 competitor just raised $10M. Their strategy changed. We need to re-analyze your positioning."
+        },
+        "techArchitect": {
+          "name": "Tech Architect",
+          "role": "Your technical brain",
+          "personality": "Preventive, obsessed with avoiding tech debt",
+          "skills": {
+            "a": "System design",
+            "b": "Tech stack",
+            "c": "Scalability",
+            "d": "Security",
+            "e": "DevOps"
+          },
+          "example": "With that stack, you won't scale beyond 1,000 users. Refactoring then will cost $50K."
+        },
+        "legalAdvisor": {
+          "name": "Legal Advisor",
+          "role": "Your compliance guardian",
+          "personality": "Prevents legal disasters, not a lawyer but knows enough",
+          "skills": {
+            "a": "Terms of service",
+            "b": "Privacy policies",
+            "c": "IP protection",
+            "d": "Regulations",
+            "e": "Licensing"
+          },
+          "example": "That feature requires a money transmission license. Cost: $100K+ and 6 months. Here are 3 legal alternatives."
+        },
+        "validationLead": {
+          "name": "Validation Lead",
+          "role": "Your evidence gatherer",
+          "personality": "Implacable with rigor, enemy of 'I think'",
+          "skills": {
+            "a": "Experiment design",
+            "b": "Interview scripts",
+            "c": "A/B testing",
+            "d": "Metrics definition",
+            "e": "Hypothesis tracking"
+          },
+          "example": "You've been 12 days without validating any hypothesis. Here's your experiment for tomorrow."
+        },
+        "accountabilityCoach": {
+          "name": "Accountability Coach",
+          "role": "Your anti-procrastination force",
+          "personality": "Firm but empathetic, won't let you escape",
+          "skills": {
+            "a": "Progress tracking",
+            "b": "Blocker identification",
+            "c": "Momentum building",
+            "d": "Deadline enforcement",
+            "e": "Pattern recognition"
+          },
+          "example": "It's 2pm Wednesday. You promised 3 interviews this week. You've done 0. It's not lack of time. It's emotional resistance. Let's talk."
+        }
+      }
+    },
+    "useCases": {
+      "badge": "Real Stories",
+      "title": {
+        "line1": "Founders Like You",
+        "line2": "Transformed Their Journey"
+      },
+      "subtitle": "See how different founders used Vectorify to go from idea to execution faster than ever.",
+      "tabs": {
+        "firstTime": "First-Time Founder",
+        "serial": "Serial Founder",
+        "student": "Student Entrepreneur"
+      },
+      "before": "BEFORE Vector",
+      "after": "AFTER Vector",
+      "cases": {
+        "firstTime": {
+          "before": {
+            "title": "The Reality",
+            "items": {
+              "a": "4 months in 'planning mode'",
+              "b": "23 Notion pages unused",
+              "c": "7 Lean Canvas versions",
+              "d": "0 conversations with users",
+              "e": "Daily anxiety",
+              "f": "Thinking of going back to corporate"
+            }
+          },
+          "after": {
+            "title": "The Transformation",
+            "items": {
+              "a": "Validated Lean Canvas with evidence",
+              "b": "20 user interviews completed",
+              "c": "MVP launched (even if imperfect)",
+              "d": "50 early adopters",
+              "e": "5 paying users ($20/mo each)",
+              "f": "Applying to accelerators with confidence"
+            }
+          },
+          "quote": {
+            "text": "Vector didn't give me motivation. It gave me a SYSTEM. I no longer wake up not knowing what to do.",
+            "author": "Camila Vega",
+            "role": "Founder @ Finly"
+          }
+        },
+        "serial": {
+          "before": {
+            "title": "The Scale Problem",
+            "items": {
+              "a": "Team of 18 people",
+              "b": "Everyone interpreted strategy differently",
+              "c": "OKRs changed every week",
+              "d": "30% engineering time on misaligned features",
+              "e": "Senior hire onboarding: 60+ days",
+              "f": "Investors asking for metrics not ready"
+            }
+          },
+          "after": {
+            "title": "The Solution",
+            "items": {
+              "a": "Entire team operates from same playbook",
+              "b": "OKRs on live dashboard",
+              "c": "Team alignment score: 40% → 95%",
+              "d": "Senior hire onboarding: 7 days",
+              "e": "Investor updates automated",
+              "f": "8 portfolio companies using Vector"
+            }
+          },
+          "quote": {
+            "text": "Vector is my second strategic brain. But now, my entire team has access to that brain.",
+            "author": "Diego Martínez",
+            "role": "CEO @ TechCo (Series B)"
+          }
+        },
+        "student": {
+          "before": {
+            "title": "The Dream",
+            "items": {
+              "a": "21 years old, studying CS",
+              "b": "Side project: book exchange app",
+              "c": "University hackathon in 2 weeks",
+              "d": "$0 budget for tools",
+              "e": "Competing against 50 teams",
+              "f": "First place = $2000 + exposure"
+            }
+          },
+          "after": {
+            "title": "The Win",
+            "items": {
+              "a": "Used Vector's Hackathon Mode",
+              "b": "Generated pitch deck in 30 minutes",
+              "c": "Validated idea with 10 students in 2 days",
+              "d": "Built MVP in 1 week",
+              "e": "Practiced pitch with AI Coach",
+              "f": "Won the hackathon 🏆"
+            }
+          },
+          "quote": {
+            "text": "Vector made me look professional. The judges thought I had 5 years of experience.",
+            "author": "Sofía Ramírez",
+            "role": "CS Student @ Tech University"
+          }
+        }
+      },
+      "stats": {
+        "timeToMvp": {
+          "value": "6 weeks",
+          "label": "Avg. time to MVP"
+        },
+        "mvpRate": {
+          "value": "30%",
+          "label": "Projects reach MVP"
+        },
+        "satisfaction": {
+          "value": "4.9/5",
+          "label": "User satisfaction"
+        },
+        "recommendation": {
+          "value": "94%",
+          "label": "Would recommend"
+        }
+      }
+    },
+    "pricing": {
+      "badge": "Transparent Pricing",
+      "title": {
+        "line1": "Simple Pricing,",
+        "line2": "Powerful Results"
+      },
+      "subtitle": "Start free, upgrade when you're ready. No hidden fees, no surprises.",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "save20": "-20%",
+      "perMonth": "mo",
+      "custom": "Custom",
+      "mostPopular": "Most Popular",
+      "guarantee": "30-day money-back guarantee. No questions asked.",
+      "faqLink": "Have questions? Check our FAQ →",
+      "plans": {
+        "free": {
+          "name": "Free",
+          "desc": "Perfect to try the magic",
+          "priceMonthly": "$0",
+          "priceAnnual": "$0",
+          "cta": "Start Free",
+          "features": {
+            "a": "1 Active Project",
+            "b": "2 AI Agents",
+            "c": "10 Missions/month",
+            "d": "Basic Lean Canvas",
+            "e": "Export to PDF",
+            "f": "Community Discord",
+            "g": "7-day Pro trial"
+          }
+        },
+        "pro": {
+          "name": "Pro",
+          "desc": "For serious builders",
+          "priceMonthly": "$49",
+          "priceAnnual": "$39",
+          "cta": "Start Pro Trial",
+          "features": {
+            "a": "Unlimited Projects",
+            "b": "All 7 AI Agents",
+            "c": "Unlimited Integrations",
+            "d": "500+ Premium Playbooks",
+            "e": "Advanced Validation",
+            "f": "Analytics Dashboard",
+            "g": "Priority Support"
+          }
+        },
+        "team": {
+          "name": "Team",
+          "desc": "For growing teams",
+          "priceMonthly": "$199",
+          "priceAnnual": "$159",
+          "cta": "Start Team Trial",
+          "features": {
+            "a": "Up to 10 seats",
+            "b": "Real-time multiplayer",
+            "c": "Roles & permissions",
+            "d": "Team analytics",
+            "e": "Video AI coaching",
+            "f": "Admin controls",
+            "g": "Audit logs"
+          }
+        },
+        "enterprise": {
+          "name": "Enterprise",
+          "desc": "For organizations",
+          "priceMonthly": "Custom",
+          "priceAnnual": "Custom",
+          "cta": "Contact Sales",
+          "features": {
+            "a": "Unlimited seats",
+            "b": "SSO/SAML",
+            "c": "Custom AI agents",
+            "d": "White-label option",
+            "e": "Dedicated manager",
+            "f": "99.9% SLA",
+            "g": "On-premise option"
+          }
+        }
+      }
+    },
+    "testimonials": {
+      "badge": "Wall of Love",
+      "title": {
+        "line1": "Loved by Founders",
+        "line2": "Around the World"
+      },
+      "subtitle": "Don't just take our word for it. Here's what founders are saying about Vectorify.",
+      "featured": {
+        "camila": {
+          "title": "From 4 Months of Paralysis to MVP in 6 Weeks",
+          "quote": "I quit my job at Rappi to build my startup. Spent 4 months 'planning'. Had 7 Lean Canvas versions, 23 Notion pages, and ZERO real users. Found Vector and in 10 minutes I had more clarity than in 4 months. 6 weeks later I launched my MVP. Now I have 50 early adopters and applied to Y Combinator with confidence.",
+          "name": "Camila Vega",
+          "role": "Founder @ Finly (Fintech)"
+        },
+        "diego": {
+          "title": "From Chaos with 15 People to Total Alignment",
+          "quote": "As CEO, I had strategic clarity in MY head. But my team of 15 people interpreted that strategy 15 different ways. Vector Team changed everything. Now EVERYONE operates from the same playbook. Senior hire onboarding went from 60 days to 7 days.",
+          "name": "Diego Martínez",
+          "role": "CEO @ TechCo (Series B, $15M raised)"
+        },
+        "sofia": {
+          "title": "Won the University Hackathon with Vector Free",
+          "quote": "I'm a CS student. Had an idea but zero experience. Next hackathon in 2 weeks, 50 competing teams. Used Vector Free. Generated pitch deck in 30 minutes. Validated idea in 2 days. Built MVP in 1 week. RESULT: Won the hackathon. Judges thought I had 5 years of experience.",
+          "name": "Sofía Ramírez",
+          "role": "CS Student @ Tech University"
+        }
+      },
+      "mini": {
+        "luis": {
+          "quote": "It's Cursor but for startups, not just code.",
+          "name": "Luis Chen"
+        },
+        "ana": {
+          "quote": "Vector saved me from building the wrong product.",
+          "name": "Ana Torres"
+        },
+        "roberto": {
+          "quote": "3 months with ChatGPT: chaos. 1 week with Vector: clarity.",
+          "name": "Roberto Paz"
+        },
+        "maria": {
+          "quote": "It's not generative AI. It's STRATEGIC AI.",
+          "name": "María González"
+        },
+        "juan": {
+          "quote": "My co-founder and I are finally aligned.",
+          "name": "Juan & Pedro"
+        },
+        "claudia": {
+          "quote": "I stopped procrastinating because Vector won't let me.",
+          "name": "Claudia Ríos"
+        }
+      },
+      "stats": {
+        "founders": "Founders using Vector",
+        "rating": "Rating on Product Hunt",
+        "raised": "Raised by Vector users",
+        "recommend": "Would recommend"
+      }
+    },
+    "faq": {
+      "badge": "Got Questions?",
+      "title": {
+        "line1": "Frequently Asked",
+        "line2": "Questions"
+      },
+      "subtitle": "Everything you need to know about Vectorify. Can't find your answer? Contact us.",
+      "categories": {
+        "product": "Product",
+        "pricing": "Pricing",
+        "security": "Security"
+      },
+      "moreQuestions": "Still have questions?",
+      "contactUs": "Contact us at support@vectorify.io →",
+      "items": {
+        "product": {
+          "chatbot": {
+            "q": "Is Vector just another AI chatbot?",
+            "a": "No. Vector is an orchestration system with 7 specialized agents working together. It's not passive Q&A; it's active guidance with memory, context, and accountability. Think: GitHub Copilot is to coding what Vector is to building entire projects."
+          },
+          "existing": {
+            "q": "Can I use Vector with my existing tools?",
+            "a": "YES! That's the point. Vector integrates with Notion, ClickUp, GitHub, Figma, and 15+ other tools. We don't want to replace your workflow. We orchestrate it with strategic intelligence."
+          },
+          "unique": {
+            "q": "What if my idea is very unique/specific?",
+            "a": "Vector's intent parser understands context. If you say 'I want to make TikTok for finance,' Vector knows that's different from 'Uber for pets' or 'a book about AI.' The agents generate custom strategies, not generic templates."
+          },
+          "chatgpt": {
+            "q": "How is this different from using ChatGPT?",
+            "a": "ChatGPT has no memory between conversations, gives generic advice, and is passive. Vector has complete project context, custom strategies per your industry, proactive agents that intervene when needed, integrations with your tools, and living documents that evolve."
+          }
+        },
+        "pricing": {
+          "free": {
+            "q": "Is the Free tier really free forever?",
+            "a": "YES. No credit card required. No 'trial' that expires. 1 project, 2 agents, 10 missions/month = forever free. We believe in product-led growth. If Vector helps you, you'll upgrade when you're ready."
+          },
+          "cancel": {
+            "q": "Can I cancel anytime?",
+            "a": "Absolutely. No contracts. Cancel with 1 click. Prorated refund if you cancel mid-month. We only want you paying if Vector is genuinely helping you."
+          },
+          "refund": {
+            "q": "Do you offer refunds?",
+            "a": "30-day money-back guarantee. If Vector doesn't give you 10x clarity in the first month, email us and we refund. No questions asked."
+          },
+          "student": {
+            "q": "What about student discounts?",
+            "a": "50% off Pro tier with valid .edu email. Also, special programs for: Accelerator cohorts (free for program duration), Non-profits (50% off), Underrepresented founders (scholarships available)."
+          }
+        },
+        "security": {
+          "data": {
+            "q": "What data do you collect?",
+            "a": "We collect your project information, usage data, and integration data. We DON'T sell your data (NEVER), train AI models on your confidential info, or share with third parties (except integrations you authorize)."
+          },
+          "secure": {
+            "q": "Is my data secure?",
+            "a": "Yes. Encryption at rest (AES-256), encryption in transit (TLS 1.3), SOC 2 Type II compliant (in progress), GDPR & CCPA compliant. Enterprise tier includes SSO/SAML, custom data retention, and on-premise deployment option."
+          },
+          "export": {
+            "q": "Can I export my data?",
+            "a": "YES. Export everything anytime: JSON format (full data), PDF/PPTX (documents), CSV (analytics). No lock-in. Your data is YOURS."
+          }
+        }
+      }
+    },
+    "finalCta": {
+      "badge": "Ready to Start?",
+      "title": {
+        "line1": "Transform Your Idea",
+        "line2": "Into Reality"
+      },
+      "subtitle": "Join 10,000+ founders who stopped overthinking and started building. Your journey from idea to impact starts here.",
+      "props": {
+        "free": "Start free forever",
+        "noCard": "No credit card required",
+        "instant": "Instant setup"
+      },
+      "cta": {
+        "primary": "Start Building Free",
+        "secondary": "Watch 2-Min Demo"
+      },
+      "trust": {
+        "users": "10,000+ founders",
+        "rating": "4.9/5 rating"
+      }
+    },
+    "footer": {
+      "description": "The Innovation Operating System. From paralysis to action, in 10 minutes.",
+      "madeWith": "Made with 💙 in LATAM",
+      "product": {
+        "title": "Product",
+        "features": "Features",
+        "pricing": "Pricing",
+        "integrations": "Integrations",
+        "roadmap": "Roadmap",
+        "changelog": "Changelog"
+      },
+      "company": {
+        "title": "Company",
+        "about": "About Us",
+        "careers": "Careers",
+        "press": "Press Kit",
+        "contact": "Contact"
+      },
+      "resources": {
+        "title": "Resources",
+        "blog": "Blog",
+        "guides": "Guides",
+        "docs": "API Docs",
+        "community": "Community",
+        "support": "Support"
+      },
+      "legal": {
+        "title": "Legal",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "security": "Security",
+        "gdpr": "GDPR"
+      }
+    }
+  },
   "workspace": {
     "title": "Workspace",
     "demoWorkspace": "Demo Workspace",

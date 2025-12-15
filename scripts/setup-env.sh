@@ -74,3 +74,8 @@ echo "   PostgreSQL Port: ${POSTGRES_PORT}"
 echo "   Database URL: ${DATABASE_URL}"
 echo ""
 echo "🚀 Ahora puedes ejecutar: pnpm dev"
+
+
+
+
+

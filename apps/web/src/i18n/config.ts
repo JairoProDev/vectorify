@@ -14,3 +14,8 @@ export const localeFlags: Record<Locale, string> = {
   es: '🇪🇸',
   pt: '🇧🇷',
 };
+
+
+
+
+

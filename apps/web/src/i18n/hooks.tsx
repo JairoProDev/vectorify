@@ -37,6 +37,18 @@ interface I18nProviderProps {
   children: ReactNode;
 }
 
+// Alias for useTranslations to support components that need translations for a specific namespace
+export function useTranslations(namespace?: string) {
+  const { t, messages } = useI18n();
+  
+  const translate = (key: string, params?: Record<string, string | number>): string => {
+    const fullKey = namespace ? `${namespace}.${key}` : key;
+    return t(fullKey, params);
+  };
+  
+  return translate;
+}
+
 export function I18nProvider({ children }: I18nProviderProps) {
   const [locale, setLocaleState] = useState<Locale>(defaultLocale);
   const [messages, setMessages] = useState<Messages>({});
