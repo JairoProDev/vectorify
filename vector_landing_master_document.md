@@ -1919,7 +1919,7 @@ Connect
 
 ═══════════════════════════════════════════════════════
 
-© 2024 Vector Inc. Made with 💙 in CDMX & Miami
+© 2024 Vector Inc. Made with 💙 in LATAM
 
 De la Parálisis a la Acción. En 10 Minutos.
 

@@ -59,10 +59,22 @@
       },
       "subtitle": "Todo ano, 70 milhões de pessoas têm uma ideia de negócio. Menos de 5% executam além do mês 3. Não por ideias ruins, mas por má execução estratégica.",
       "cycle": {
-        "day1": { "day": "Dia 1", "text": "\"Vou mudar o mundo!\"" },
-        "day7": { "day": "Dia 7", "text": "23 páginas no Notion, 0 usuários reais" },
-        "day30": { "day": "Dia 30", "text": "7 versões do Lean Canvas, paralisia total" },
-        "day90": { "day": "Dia 90", "text": "Projeto abandonado, volta ao corporativo" }
+        "day1": {
+          "day": "Dia 1",
+          "text": "\"Vou mudar o mundo!\""
+        },
+        "day7": {
+          "day": "Dia 7",
+          "text": "23 páginas no Notion, 0 usuários reais"
+        },
+        "day30": {
+          "day": "Dia 30",
+          "text": "7 versões do Lean Canvas, paralisia total"
+        },
+        "day90": {
+          "day": "Dia 90",
+          "text": "Projeto abandonado, volta ao corporativo"
+        }
       },
       "fragmentation": {
         "title": "Fragmentação de Ferramentas",
@@ -485,10 +497,22 @@
         }
       },
       "stats": {
-        "timeToMvp": { "value": "6 semanas", "label": "Tempo médio para MVP" },
-        "mvpRate": { "value": "30%", "label": "Projetos alcançam MVP" },
-        "satisfaction": { "value": "4.9/5", "label": "Satisfação dos usuários" },
-        "recommendation": { "value": "94%", "label": "Recomendariam" }
+        "timeToMvp": {
+          "value": "6 semanas",
+          "label": "Tempo médio para MVP"
+        },
+        "mvpRate": {
+          "value": "30%",
+          "label": "Projetos alcançam MVP"
+        },
+        "satisfaction": {
+          "value": "4.9/5",
+          "label": "Satisfação dos usuários"
+        },
+        "recommendation": {
+          "value": "94%",
+          "label": "Recomendariam"
+        }
       }
     },
     "pricing": {
@@ -601,12 +625,30 @@
         }
       },
       "mini": {
-        "luis": { "quote": "É Cursor mas para startups, não só código.", "name": "Luis Chen" },
-        "ana": { "quote": "Vector me salvou de construir o produto errado.", "name": "Ana Torres" },
-        "roberto": { "quote": "3 meses com ChatGPT: caos. 1 semana com Vector: clareza.", "name": "Roberto Paz" },
-        "maria": { "quote": "Não é IA generativa. É IA ESTRATÉGICA.", "name": "María González" },
-        "juan": { "quote": "Meu co-founder e eu finalmente estamos alinhados.", "name": "Juan & Pedro" },
-        "claudia": { "quote": "Parei de procrastinar porque Vector não me deixa.", "name": "Claudia Ríos" }
+        "luis": {
+          "quote": "É Cursor mas para startups, não só código.",
+          "name": "Luis Chen"
+        },
+        "ana": {
+          "quote": "Vector me salvou de construir o produto errado.",
+          "name": "Ana Torres"
+        },
+        "roberto": {
+          "quote": "3 meses com ChatGPT: caos. 1 semana com Vector: clareza.",
+          "name": "Roberto Paz"
+        },
+        "maria": {
+          "quote": "Não é IA generativa. É IA ESTRATÉGICA.",
+          "name": "María González"
+        },
+        "juan": {
+          "quote": "Meu co-founder e eu finalmente estamos alinhados.",
+          "name": "Juan & Pedro"
+        },
+        "claudia": {
+          "quote": "Parei de procrastinar porque Vector não me deixa.",
+          "name": "Claudia Ríos"
+        }
       },
       "stats": {
         "founders": "Founders usando Vector",
@@ -705,7 +747,7 @@
     },
     "footer": {
       "description": "O Sistema Operacional da Inovação. Da paralisia à ação, em 10 minutos.",
-      "madeWith": "Feito com 💙 na CDMX & Miami",
+      "madeWith": "Feito com 💙 na LATAM",
       "product": {
         "title": "Produto",
         "features": "Funcionalidades",
