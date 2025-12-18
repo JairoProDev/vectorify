@@ -483,7 +483,7 @@ Los Smart Stacks son estrategias VIVAS, no PDFs muertos:
 
 **Posicionamiento**: "El VS Code para construir startups y proyectos"
 
-**Tagline**: "De la Parálisis a la Acción. En 10 Minutos."
+**Tagline**: "De la Parálisis a la Acción. En 5 Minutos."
 
 ---
 
@@ -598,7 +598,7 @@ Los Smart Stacks son estrategias VIVAS, no PDFs muertos:
 #### 1. Subscription (SaaS)
 - **Free**: $0 (forever, 1 project, 2 agents)
 - **Pro**: $49/mo (unlimited, all agents, integrations)
-- **Team**: $199/mo (up to 10 seats, collaboration)
+- **Team**: $199/mo (up to 5 seats, collaboration)
 - **Enterprise**: Custom (unlimited seats, white-label, SSO)
 
 #### 2. Marketplace (Revenue Share)
@@ -1491,12 +1491,12 @@ Los Smart Stacks son estrategias VIVAS, no PDFs muertos:
 
 ### Team Tier: "For the Squad"
 
-**Precio**: $199/month (up to 10 team members)
+**Precio**: $199/month (up to 5 team members)
 
 **Qué Incluye** (vs Pro):
 - ✅ EVERYTHING in Pro, plus:
 - 👥 Team Features:
-  - 10 seats included ($19/seat extra)
+  - 5 seats included ($19/seat extra)
   - Roles & permissions (Owner, Editor, Viewer, Advisor)
   - Real-time multiplayer editing
   - @mentions and threaded comments
@@ -1610,7 +1610,7 @@ Los Smart Stacks son estrategias VIVAS, no PDFs muertos:
 VECTORIFY
 El Sistema Operativo de la Innovación
 
-De la Parálisis a la Acción. En 10 Minutos.
+De la Parálisis a la Acción. En 5 Minutos.
 
 Jairo - Founder & CEO
 ```

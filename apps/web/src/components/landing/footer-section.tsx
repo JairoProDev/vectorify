@@ -26,7 +26,7 @@ export function FooterSection() {
     <footer className="relative border-t border-white/5">
       {/* Background */}
       <div className="absolute inset-0 bg-card/50" />
-      
+
       <div className="container relative px-4">
         {/* Main Footer */}
         <div className="py-16">
@@ -34,15 +34,15 @@ export function FooterSection() {
             {/* Brand Column */}
             <div className="col-span-2">
               <Link href="/" className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-primary" />
                 </div>
                 <span className="text-xl font-bold">Vectorify</span>
               </Link>
               <p className="text-sm text-muted-foreground mb-6 max-w-xs">
                 {t('footer.description')}
               </p>
-              
+
               {/* Social Links */}
               <div className="flex gap-3">
                 {socialLinks.map((social) => (
@@ -75,7 +75,7 @@ export function FooterSection() {
                 <ul className="space-y-3">
                   {links.map((link) => (
                     <li key={link}>
-                      <Link 
+                      <Link
                         href={`/${link}`}
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
@@ -96,7 +96,7 @@ export function FooterSection() {
               <span>© {new Date().getFullYear()} Vectorify.</span>
               <span>{t('footer.madeWith')}</span>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <LanguageSelector />
             </div>

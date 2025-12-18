@@ -12,17 +12,12 @@ export function FinalCTASection() {
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-background to-background" />
-      <div className="absolute inset-0 gradient-mesh opacity-50" />
-      
-      {/* Animated Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float-slow opacity-30" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-float opacity-20" style={{ animationDelay: '2s' }} />
-      
+      <div className="absolute inset-0 pattern-grid opacity-20" />
+
       <div className="container relative px-4">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8">
-            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-8">
             <span className="text-sm font-medium text-primary">
               {t('finalCta.badge')}
             </span>
@@ -53,31 +48,30 @@ export function FinalCTASection() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link href="/workspace">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="
-                  h-14 px-8 text-base font-semibold
-                  bg-gradient-to-r from-primary via-primary to-accent
-                  hover:opacity-90 transition-all duration-300
-                  shadow-glow hover:shadow-glow-lg
-                  animate-pulse-glow
+                  h-12 px-8 text-base font-semibold
+                  bg-primary text-primary-foreground
+                  hover:bg-primary/90 transition-all duration-300
+                  shadow-lg shadow-primary/20
                 "
               >
                 {t('finalCta.cta.primary')}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
+            <Button
+              size="lg"
+              variant="outline"
               className="
-                h-14 px-8 text-base font-semibold
-                border-white/10 bg-white/5 backdrop-blur-sm
-                hover:bg-white/10 hover:border-primary/50
-                transition-all duration-300
-              "
+                  h-12 px-8 text-base font-semibold
+                  border-border bg-transparent
+                  hover:bg-accent/10 hover:text-accent hover:border-accent/50
+                  transition-all duration-300
+                "
             >
-              <Play className="mr-2 h-5 w-5" />
+              <Play className="mr-2 h-4 w-4" />
               {t('finalCta.cta.secondary')}
             </Button>
           </div>
@@ -87,8 +81,8 @@ export function FinalCTASection() {
             <div className="flex items-center gap-2">
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4].map((i) => (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-background"
                   />
                 ))}

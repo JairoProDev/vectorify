@@ -36,7 +36,7 @@ export function Navbar() {
           fixed top-0 left-0 right-0 z-50
           transition-all duration-300
           ${isScrolled
-            ? 'py-3 bg-background/80 backdrop-blur-xl border-b border-white/5'
+            ? 'py-3 bg-[#0B1221]/80 backdrop-blur-md border-b border-white/5'
             : 'py-5 bg-transparent'
           }
         `}
@@ -45,14 +45,8 @@ export function Navbar() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <div className={`
-                w-9 h-9 rounded-lg
-                bg-gradient-to-br from-primary to-accent
-                flex items-center justify-center
-                transition-all duration-300
-                ${isScrolled ? 'shadow-glow-sm' : ''}
-              `}>
-                <Zap className="w-5 h-5 text-white" />
+              <div className="flex items-center justify-center">
+                <Zap className="w-6 h-6 text-primary" />
               </div>
               <span className="text-lg font-bold">Vectorify</span>
             </Link>
@@ -85,8 +79,8 @@ export function Navbar() {
                 <Button
                   size="sm"
                   className="
-                    bg-gradient-to-r from-primary to-accent
-                    hover:opacity-90 transition-opacity
+                    bg-primary text-primary-foreground
+                    hover:bg-primary/90 transition-opacity
                   "
                 >
                   {t('nav.cta')}
@@ -155,8 +149,8 @@ export function Navbar() {
               size="lg"
               className="
                 w-full
-                bg-gradient-to-r from-primary to-accent
-                hover:opacity-90 transition-opacity
+                bg-primary text-primary-foreground
+                hover:bg-primary/90 transition-opacity
               "
             >
               {t('nav.cta')}

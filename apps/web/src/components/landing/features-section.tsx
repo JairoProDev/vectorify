@@ -1,11 +1,11 @@
 'use client';
 
 import { useTranslations } from '@/i18n/hooks';
-import { 
-  GitBranch, 
-  Brain, 
-  Zap, 
-  Users, 
+import {
+  GitBranch,
+  Brain,
+  Zap,
+  Users,
   RefreshCcw,
   Layers,
   Target,
@@ -16,58 +16,58 @@ const features = [
   {
     icon: GitBranch,
     key: 'strategyCode',
-    color: 'text-green-400',
-    bgColor: 'bg-green-500/10',
-    borderColor: 'border-green-500/20',
-  },
-  {
-    icon: Brain,
-    key: 'aiCopilot',
     color: 'text-primary',
     bgColor: 'bg-primary/10',
     borderColor: 'border-primary/20',
   },
   {
+    icon: Brain,
+    key: 'aiCopilot',
+    color: 'text-accent',
+    bgColor: 'bg-accent/10',
+    borderColor: 'border-accent/20',
+  },
+  {
     icon: Layers,
     key: 'projectGraph',
-    color: 'text-blue-400',
-    bgColor: 'bg-blue-500/10',
-    borderColor: 'border-blue-500/20',
+    color: 'text-primary',
+    bgColor: 'bg-primary/10',
+    borderColor: 'border-primary/20',
   },
   {
     icon: Zap,
     key: 'smartStacks',
-    color: 'text-yellow-400',
-    bgColor: 'bg-yellow-500/10',
-    borderColor: 'border-yellow-500/20',
+    color: 'text-accent',
+    bgColor: 'bg-accent/10',
+    borderColor: 'border-accent/20',
   },
   {
     icon: Users,
     key: 'multiplayer',
-    color: 'text-pink-400',
-    bgColor: 'bg-pink-500/10',
-    borderColor: 'border-pink-500/20',
+    color: 'text-primary',
+    bgColor: 'bg-primary/10',
+    borderColor: 'border-primary/20',
   },
   {
     icon: RefreshCcw,
     key: 'versionControl',
-    color: 'text-cyan-400',
-    bgColor: 'bg-cyan-500/10',
-    borderColor: 'border-cyan-500/20',
+    color: 'text-accent',
+    bgColor: 'bg-accent/10',
+    borderColor: 'border-accent/20',
   },
   {
     icon: Target,
     key: 'validation',
-    color: 'text-orange-400',
-    bgColor: 'bg-orange-500/10',
-    borderColor: 'border-orange-500/20',
+    color: 'text-primary',
+    bgColor: 'bg-primary/10',
+    borderColor: 'border-primary/20',
   },
   {
     icon: Shield,
     key: 'security',
-    color: 'text-emerald-400',
-    bgColor: 'bg-emerald-500/10',
-    borderColor: 'border-emerald-500/20',
+    color: 'text-accent',
+    bgColor: 'bg-accent/10',
+    borderColor: 'border-accent/20',
   },
 ];
 
@@ -79,23 +79,22 @@ export function FeaturesSection() {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background to-card/30" />
       <div className="absolute inset-0 pattern-grid opacity-30" />
-      
+
       <div className="container relative px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
-            <Zap className="w-4 h-4 text-primary" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6">
             <span className="text-sm font-medium text-primary">
               {t('features.badge')}
             </span>
           </div>
-          
+
           <h2 className="text-display-mobile md:text-display font-display font-bold mb-6">
             <span className="text-foreground">{t('features.title.line1')}</span>
             <br />
             <span className="gradient-hero-text">{t('features.title.line2')}</span>
           </h2>
-          
+
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {t('features.subtitle')}
           </p>
@@ -123,7 +122,7 @@ export function FeaturesSection() {
               `}>
                 <feature.icon className={`w-6 h-6 ${feature.color}`} />
               </div>
-              
+
               {/* Content */}
               <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
                 {t(`features.items.${feature.key}.title`)}
@@ -131,7 +130,7 @@ export function FeaturesSection() {
               <p className="text-sm text-muted-foreground mb-4">
                 {t(`features.items.${feature.key}.desc`)}
               </p>
-              
+
               {/* Hover Indicator */}
               <div className={`
                 absolute bottom-4 right-4 w-8 h-8 rounded-full
@@ -154,7 +153,7 @@ export function FeaturesSection() {
           <h3 className="text-2xl font-display font-bold text-center mb-8">
             {t('features.comparison.title')}
           </h3>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>

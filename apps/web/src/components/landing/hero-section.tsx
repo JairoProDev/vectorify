@@ -17,33 +17,27 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 gradient-mesh" />
-      <div className="absolute inset-0 pattern-grid opacity-50" />
-      
-      {/* Animated Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float-slow opacity-30" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-float opacity-20" style={{ animationDelay: '2s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-primary/10 to-transparent rounded-full" />
-      
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
+      <div className="absolute inset-0 pattern-grid opacity-20" />
+
       <div className="container relative z-10 px-4 py-20 md:py-32">
         <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
           {/* Badge */}
-          <div 
+          <div
             className={`
-              inline-flex items-center gap-2 px-4 py-2 rounded-full 
-              bg-primary/10 border border-primary/20 backdrop-blur-sm
+              inline-flex items-center gap-2 px-3 py-1 rounded-full 
+              bg-primary/10 border border-primary/20
               mb-8 transition-all duration-700
               ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
             `}
           >
-            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
             <span className="text-sm font-medium text-primary">
               {t('hero.badge')}
             </span>
           </div>
 
           {/* Main Headline */}
-          <h1 
+          <h1
             className={`
               text-hero-mobile md:text-hero font-display font-bold 
               mb-6 transition-all duration-700 delay-100
@@ -59,7 +53,7 @@ export function HeroSection() {
           </h1>
 
           {/* Subheadline */}
-          <p 
+          <p
             className={`
               text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10
               transition-all duration-700 delay-200
@@ -70,7 +64,7 @@ export function HeroSection() {
           </p>
 
           {/* CTA Buttons */}
-          <div 
+          <div
             className={`
               flex flex-col sm:flex-row gap-4 mb-12
               transition-all duration-700 delay-300
@@ -78,37 +72,36 @@ export function HeroSection() {
             `}
           >
             <Link href="/workspace">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="
-                  h-14 px-8 text-base font-semibold
-                  bg-gradient-to-r from-primary via-primary to-accent
-                  hover:opacity-90 transition-all duration-300
-                  shadow-glow hover:shadow-glow-lg
-                  animate-pulse-glow
+                  h-12 px-8 text-base font-semibold
+                  bg-primary text-primary-foreground
+                  hover:bg-primary/90 transition-all duration-300
+                  shadow-lg shadow-primary/20
                 "
               >
                 {t('hero.cta.primary')}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Button 
-              size="lg" 
-              variant="outline" 
+            <Button
+              size="lg"
+              variant="outline"
               className="
-                h-14 px-8 text-base font-semibold
-                border-white/10 bg-white/5 backdrop-blur-sm
-                hover:bg-white/10 hover:border-primary/50
+                h-12 px-8 text-base font-semibold
+                border-border bg-transparent
+                hover:bg-accent/10 hover:text-accent hover:border-accent/50
                 transition-all duration-300
               "
             >
-              <Play className="mr-2 h-5 w-5" />
+              <Play className="mr-2 h-4 w-4" />
               {t('hero.cta.secondary')}
             </Button>
           </div>
 
           {/* Trust Indicators */}
-          <div 
+          <div
             className={`
               flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground
               transition-all duration-700 delay-400
@@ -118,10 +111,10 @@ export function HeroSection() {
             <div className="flex items-center gap-2">
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-background"
-                    style={{ 
+                    style={{
                       opacity: 1 - (i * 0.1),
                       transform: `translateX(${i * 2}px)`
                     }}
@@ -145,7 +138,7 @@ export function HeroSection() {
         </div>
 
         {/* Scroll Indicator */}
-        <div 
+        <div
           className={`
             absolute bottom-8 left-1/2 -translate-x-1/2
             transition-all duration-700 delay-500

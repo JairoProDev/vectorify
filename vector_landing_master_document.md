@@ -55,7 +55,7 @@ Día 90: Proyecto abandonado, vuelta a trabajo corporativo
 | **ClickUp/Asana** | Gestiona tareas | No genera estrategia |
 | **Cursor** | Escribe código | Solo código, no estrategia |
 | **Miro** | Visualiza ideas | Murales que nunca revisas |
-| **🚀 VECTOR** | **Traduce tu idea en plan ejecutable en 10 minutos** | **Sin límites** |
+| **🚀 VECTOR** | **Traduce tu idea en plan ejecutable en 5 Minutos** | **Sin límites** |
 
 **Vector es "Cursor para proyectos, no solo código"**
 
@@ -67,7 +67,7 @@ Día 90: Proyecto abandonado, vuelta a trabajo corporativo
 
 ```
 De la Parálisis a la Acción
-En 10 Minutos
+En 5 Minutos
 ```
 
 ## Subheadline (The Promise)
@@ -1033,7 +1033,7 @@ Inspiration: Tony Robbins meets Drill Sergeant
 Pasé 4 meses 'planificando'. Tenía 7 versiones de Lean Canvas,
 23 páginas de Notion, y CERO usuarios reales.
 
-Encontré Vector y en 10 minutos tenía más claridad que en
+Encontré Vector y en 5 Minutos tenía más claridad que en
 4 meses. El Copilot me hizo las preguntas que nadie más me
 había hecho. Las misiones me obligaron a HACER, no solo pensar.
 
@@ -1921,7 +1921,7 @@ Connect
 
 © 2024 Vector Inc. Made with 💙 in LATAM
 
-De la Parálisis a la Acción. En 10 Minutos.
+De la Parálisis a la Acción. En 5 Minutos.
 
 [Start Building →]
 
@@ -2288,7 +2288,7 @@ Principles:
 ## Variants to Test
 
 ### Hero Headline
-- **A:** "De la Parálisis a la Acción en 10 Minutos"
+- **A:** "De la Parálisis a la Acción en 5 Minutos"
 - **B:** "El Copiloto Estratégico que Te Faltaba"
 - **C:** "Convierte Tu Idea en Startup. Finalmente."
 
@@ -2403,7 +2403,7 @@ Principles:
 ```html
 <!-- Primary Meta Tags -->
 <title>Vector - El Sistema Operativo de la Innovación | AI Copilot for Founders</title>
-<meta name="title" content="Vector - De la Parálisis a la Acción en 10 Minutos">
+<meta name="title" content="Vector - De la Parálisis a la Acción en 5 Minutos">
 <meta name="description" content="Vector es el copiloto estratégico con IA que convierte tu caos de ideas en roadmap ejecutable. 10,000+ founders. Empieza gratis.">
 <meta name="keywords" content="startup tool, AI copilot, project management, lean canvas, founder productivity">
 
@@ -2418,7 +2418,7 @@ Principles:
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="https://vector.ai/">
 <meta property="twitter:title" content="Vector - AI Copilot for Founders">
-<meta property="twitter:description" content="De la parálisis a la acción en 10 minutos">
+<meta property="twitter:description" content="De la parálisis a la acción en 5 Minutos">
 <meta property="twitter:image" content="https://vector.ai/twitter-image.png">
 ```
 
