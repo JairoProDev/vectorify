@@ -112,8 +112,3 @@ curl http://localhost:3004/api/v1/health
 2. **Las credenciales son solo para desarrollo** - En producción usa variables de entorno seguras
 3. **Los archivos `.env` están en `.gitignore`** - No se subirán al repositorio
 4. **Si cambias las credenciales en `docker-compose.yml`**, ejecuta `./scripts/setup-env.sh` nuevamente
-
-
-
-
-
