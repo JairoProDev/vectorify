@@ -22,6 +22,7 @@ model User {
   avatar String?
 
   // Auth provider info
+  password   String? // Hashed password for email auth
   provider   String? // "google", "github", "email"
   providerId String? // ID del proveedor externo
 

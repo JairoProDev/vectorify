@@ -10,6 +10,8 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { AIModule } from './modules/ai/ai.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { ActivityModule } from './modules/activity/activity.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -26,8 +28,10 @@ import { ActivityModule } from './modules/activity/activity.module';
     AIModule,
     CommentsModule,
     ActivityModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

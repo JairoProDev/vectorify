@@ -31,12 +31,12 @@ export function Navbar() {
 
   return (
     <>
-      <header 
+      <header
         className={`
           fixed top-0 left-0 right-0 z-50
           transition-all duration-300
-          ${isScrolled 
-            ? 'py-3 bg-background/80 backdrop-blur-xl border-b border-white/5' 
+          ${isScrolled
+            ? 'py-3 bg-background/80 backdrop-blur-xl border-b border-white/5'
             : 'py-5 bg-transparent'
           }
         `}
@@ -78,8 +78,11 @@ export function Navbar() {
             <div className="hidden md:flex items-center gap-3">
               <LanguageSelector />
               <ThemeToggle />
+              <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                Login
+              </Link>
               <Link href="/workspace">
-                <Button 
+                <Button
                   size="sm"
                   className="
                     bg-gradient-to-r from-primary to-accent
@@ -107,7 +110,7 @@ export function Navbar() {
       </header>
 
       {/* Mobile Menu */}
-      <div 
+      <div
         className={`
           fixed inset-0 z-40 md:hidden
           bg-background/95 backdrop-blur-xl
@@ -139,8 +142,16 @@ export function Navbar() {
             <ThemeToggle />
           </div>
 
+          <Link
+            href="/login"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="block text-center mb-4 text-lg font-medium text-muted-foreground hover:text-foreground"
+          >
+            Login
+          </Link>
+
           <Link href="/workspace" onClick={() => setIsMobileMenuOpen(false)}>
-            <Button 
+            <Button
               size="lg"
               className="
                 w-full

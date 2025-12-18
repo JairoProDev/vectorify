@@ -13,10 +13,15 @@ class APIClient {
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
 
+    // Add auth token if available
+    const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
+    const authHeader = token ? { 'Authorization': `Bearer ${token}` } : {};
+
     const response = await fetch(url, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
+        ...authHeader,
         ...options?.headers,
       },
     });
