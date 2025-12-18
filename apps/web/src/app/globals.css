@@ -14,43 +14,43 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 249 100% 68%;
+    --primary: 171 77% 44%;
     --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 280 100% 70%;
+    --accent: 199 89% 48%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 249 100% 68%;
+    --ring: 171 77% 44%;
     --radius: 0.75rem;
   }
 
   .dark {
     /* Premium dark mode - deep space aesthetic */
-    --background: 222 47% 5%;
+    --background: 224 71% 4%;
     --foreground: 210 40% 98%;
     --card: 222 47% 7%;
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 7%;
     --popover-foreground: 210 40% 98%;
-    --primary: 249 100% 68%;
+    --primary: 171 77% 44%;
     --primary-foreground: 222 47% 5%;
     --secondary: 217.2 32.6% 12%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 12%;
     --muted-foreground: 215 20.2% 55%;
-    --accent: 280 100% 70%;
+    --accent: 199 89% 48%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 15%;
     --input: 217.2 32.6% 15%;
-    --ring: 249 100% 68%;
+    --ring: 171 77% 44%;
   }
 }
 
@@ -58,16 +58,16 @@
   * {
     @apply border-border;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   ::selection {
     @apply bg-primary/30 text-foreground;
   }
@@ -75,7 +75,13 @@
 
 /* Typography System */
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display tracking-tight;
   }
 }
@@ -83,46 +89,41 @@
 /* Premium Gradients */
 @layer utilities {
   .gradient-hero {
-    background: linear-gradient(135deg, 
-      hsl(249, 100%, 68%) 0%,
-      hsl(280, 100%, 70%) 50%,
-      hsl(330, 100%, 70%) 100%
-    );
+    background: linear-gradient(135deg,
+        hsl(171, 77%, 44%) 0%,
+        hsl(199, 89%, 48%) 50%,
+        hsl(217, 91%, 60%) 100%);
   }
 
   .gradient-hero-text {
-    background: linear-gradient(135deg, 
-      hsl(249, 100%, 75%) 0%,
-      hsl(280, 100%, 75%) 50%,
-      hsl(330, 100%, 75%) 100%
-    );
+    background: linear-gradient(135deg,
+        hsl(171, 77%, 44%) 0%,
+        hsl(199, 89%, 48%) 50%,
+        hsl(217, 91%, 60%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .gradient-card {
-    background: linear-gradient(145deg, 
-      hsl(222, 47%, 8%) 0%,
-      hsl(222, 47%, 5%) 100%
-    );
+    background: linear-gradient(145deg,
+        hsl(222, 47%, 8%) 0%,
+        hsl(222, 47%, 5%) 100%);
   }
 
   .gradient-glow {
-    background: radial-gradient(
-      ellipse 80% 50% at 50% -20%,
-      hsla(249, 100%, 68%, 0.15) 0%,
-      transparent 70%
-    );
+    background: radial-gradient(ellipse 80% 50% at 50% -20%,
+        hsla(171, 77%, 44%, 0.15) 0%,
+        transparent 70%);
   }
 
   .gradient-mesh {
-    background: 
-      radial-gradient(at 40% 20%, hsla(249, 100%, 68%, 0.15) 0px, transparent 50%),
-      radial-gradient(at 80% 0%, hsla(280, 100%, 70%, 0.1) 0px, transparent 50%),
-      radial-gradient(at 0% 50%, hsla(330, 100%, 70%, 0.08) 0px, transparent 50%),
-      radial-gradient(at 80% 50%, hsla(249, 100%, 68%, 0.06) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsla(280, 100%, 70%, 0.1) 0px, transparent 50%);
+    background:
+      radial-gradient(at 40% 20%, hsla(171, 77%, 44%, 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsla(199, 89%, 48%, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsla(217, 91%, 60%, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, hsla(171, 77%, 44%, 0.06) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(199, 89%, 48%, 0.1) 0px, transparent 50%);
   }
 
   .gradient-border {
@@ -135,13 +136,12 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, 
-      hsla(249, 100%, 68%, 0.5) 0%,
-      hsla(280, 100%, 70%, 0.3) 50%,
-      hsla(330, 100%, 70%, 0.2) 100%
-    );
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
+    background: linear-gradient(135deg,
+        hsla(171, 77%, 44%, 0.5) 0%,
+        hsla(199, 89%, 48%, 0.3) 50%,
+        hsla(217, 91%, 60%, 0.2) 100%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -167,14 +167,14 @@
 /* Glow Effects */
 @layer utilities {
   .glow-primary {
-    box-shadow: 
+    box-shadow:
       0 0 20px hsla(249, 100%, 68%, 0.3),
       0 0 40px hsla(249, 100%, 68%, 0.2),
       0 0 60px hsla(249, 100%, 68%, 0.1);
   }
 
   .glow-accent {
-    box-shadow: 
+    box-shadow:
       0 0 20px hsla(280, 100%, 70%, 0.3),
       0 0 40px hsla(280, 100%, 70%, 0.2);
   }
@@ -184,7 +184,7 @@
   }
 
   .text-glow {
-    text-shadow: 
+    text-shadow:
       0 0 20px hsla(249, 100%, 68%, 0.5),
       0 0 40px hsla(249, 100%, 68%, 0.3);
   }
@@ -211,12 +211,10 @@
 
   .animate-shimmer {
     animation: shimmer 2s linear infinite;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsla(249, 100%, 68%, 0.1) 50%,
-      transparent 100%
-    );
+    background: linear-gradient(90deg,
+        transparent 0%,
+        hsla(249, 100%, 68%, 0.1) 50%,
+        transparent 100%);
     background-size: 200% 100%;
   }
 
@@ -224,7 +222,7 @@
     overflow: hidden;
     border-right: 2px solid hsl(249, 100%, 68%);
     white-space: nowrap;
-    animation: 
+    animation:
       typewriter 3s steps(40) 1s 1 normal both,
       blink-caret 0.75s step-end infinite;
   }
@@ -269,38 +267,73 @@
 
 /* Keyframes */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { 
+
+  0%,
+  100% {
     box-shadow: 0 0 20px hsla(249, 100%, 68%, 0.3);
   }
-  50% { 
+
+  50% {
     box-shadow: 0 0 40px hsla(249, 100%, 68%, 0.5), 0 0 60px hsla(280, 100%, 70%, 0.3);
   }
 }
 
 @keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent; }
-  50% { border-color: hsl(249, 100%, 68%); }
+
+  from,
+  to {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: hsl(249, 100%, 68%);
+  }
 }
 
 @keyframes fade-up {
@@ -308,6 +341,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -315,8 +349,13 @@
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scale-in {
@@ -324,6 +363,7 @@
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -335,6 +375,7 @@
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -346,6 +387,7 @@
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -353,8 +395,15 @@
 }
 
 @keyframes bounce-subtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 @keyframes particle {
@@ -362,6 +411,7 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-100px) scale(0);
@@ -370,21 +420,47 @@
 
 /* Staggered Animation Delays */
 @layer utilities {
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
-  .delay-500 { animation-delay: 500ms; }
-  .delay-600 { animation-delay: 600ms; }
-  .delay-700 { animation-delay: 700ms; }
-  .delay-800 { animation-delay: 800ms; }
-  .delay-1000 { animation-delay: 1000ms; }
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .delay-600 {
+    animation-delay: 600ms;
+  }
+
+  .delay-700 {
+    animation-delay: 700ms;
+  }
+
+  .delay-800 {
+    animation-delay: 800ms;
+  }
+
+  .delay-1000 {
+    animation-delay: 1000ms;
+  }
 }
 
 /* Grid Patterns */
 @layer utilities {
   .pattern-grid {
-    background-image: 
+    background-image:
       linear-gradient(to right, hsla(249, 100%, 68%, 0.03) 1px, transparent 1px),
       linear-gradient(to bottom, hsla(249, 100%, 68%, 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
@@ -430,7 +506,7 @@
 
   .hover-lift:hover {
     @apply -translate-y-1;
-    box-shadow: 
+    box-shadow:
       0 10px 30px -10px hsla(249, 100%, 68%, 0.3),
       0 20px 40px -20px hsla(0, 0%, 0%, 0.3);
   }
@@ -523,6 +599,7 @@
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
