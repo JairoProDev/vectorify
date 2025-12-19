@@ -216,10 +216,10 @@ export function CopilotPanel() {
       // Restore state if failed
       setInputValue(currentInput);
       setAttachments(currentAttachments);
-      toast({
+      addNotification({
+        type: 'error',
         title: "Failed to send",
-        description: "Could not send your message. Restored your input.",
-        variant: "destructive"
+        message: "Could not send your message. Restored your input."
       });
     }
   };
