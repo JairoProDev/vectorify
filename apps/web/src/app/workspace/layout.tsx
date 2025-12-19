@@ -11,6 +11,7 @@ import { CommandPalette } from '@/components/workspace/command-palette';
 import { QuickCreateDialog } from '@/components/workspace/quick-create-dialog';
 import { KeyboardShortcutsDialog } from '@/components/workspace/keyboard-shortcuts-dialog';
 import { VersionControlView } from '@/components/workspace/version-control-view';
+import { SearchView } from '@/components/workspace/search-view';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
 import { useState, useEffect } from 'react';
 
@@ -77,6 +78,8 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
                 <Sidebar />
               ) : activeSidebarView === 'git' ? (
                 <VersionControlView />
+              ) : activeSidebarView === 'search' ? (
+                <SearchView />
               ) : (
                 <div className="p-4 text-sm text-muted-foreground flex flex-col items-center justify-center h-full text-center">
                   <span className="mb-2 block">Icon for {activeSidebarView}</span>

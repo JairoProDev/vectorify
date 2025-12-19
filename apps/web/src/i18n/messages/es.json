@@ -570,7 +570,7 @@
           "priceAnnual": "$159",
           "cta": "Probar Team",
           "features": {
-            "a": "Hasta 10 usuarios",
+            "a": "Hasta 5 usuarios",
             "b": "Multiplayer en tiempo real",
             "c": "Roles y permisos",
             "d": "Analytics de equipo",
@@ -795,6 +795,10 @@
     "name": "Nombre del Proyecto",
     "description": "Descripción",
     "stack": "Stack",
+    "hero": {
+      "title": "¿Qué quieres construir hoy?",
+      "subtitle": "Describe tu idea de negocio, y Vectorify te ayudará a planificarla y ejecutarla."
+    },
     "chooseStack": "Elige tu Stack",
     "projectDetails": "Dale un nombre y descripción a tu proyecto",
     "ycStartup": "Startup YC",

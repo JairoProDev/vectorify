@@ -94,7 +94,8 @@ export default function DashboardPage() {
     return Math.round((stats.completedTasks / stats.totalTasks) * 100);
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -102,7 +103,8 @@ export default function DashboardPage() {
     });
   };
 
-  const getTimeAgo = (dateString: string) => {
+  const getTimeAgo = (dateString?: string) => {
+    if (!dateString) return 'Just now';
     const date = new Date(dateString);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
@@ -323,12 +325,11 @@ export default function DashboardPage() {
                         {task.title}
                       </p>
                       <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                        <span className={`px-2 py-0.5 rounded-full ${
-                          task.priority === 'urgent' ? 'bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400' :
-                          task.priority === 'high' ? 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400' :
-                          task.priority === 'medium' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400' :
-                          'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'
-                        }`}>
+                        <span className={`px-2 py-0.5 rounded-full ${task.priority === 'urgent' ? 'bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400' :
+                            task.priority === 'high' ? 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400' :
+                              task.priority === 'medium' ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400' :
+                                'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'
+                          }`}>
                           {task.priority}
                         </span>
                         <span className="capitalize">{task.status.replace('_', ' ')}</span>

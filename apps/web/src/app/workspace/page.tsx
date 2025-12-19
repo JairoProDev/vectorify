@@ -30,7 +30,15 @@ export default function WorkspacePage() {
               className="w-full h-32 p-6 bg-transparent text-lg resize-none focus:outline-none placeholder:text-muted-foreground/50"
             />
             <div className="absolute bottom-4 right-4 flex items-center gap-2">
-              <Button size="icon" className="h-10 w-10 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button
+                size="icon"
+                className="h-10 w-10 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+                onClick={() => {
+                  if (prompt.trim()) {
+                    window.location.href = `/workspace/new?stack=custom&description=${encodeURIComponent(prompt)}`;
+                  }
+                }}
+              >
                 <Sparkles className="h-5 w-5" />
               </Button>
             </div>
@@ -38,7 +46,12 @@ export default function WorkspacePage() {
         </div>
 
         <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
-          <button className="hover:text-foreground transition-colors">Start from scratch</button>
+          <button
+            onClick={() => window.location.href = '/workspace/new'}
+            className="hover:text-foreground transition-colors"
+          >
+            Start from scratch
+          </button>
           <span>•</span>
           <button className="hover:text-foreground transition-colors">Import existing project</button>
         </div>

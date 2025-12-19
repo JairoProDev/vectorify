@@ -129,7 +129,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             name: t.title,
             description: `${t.status} • ${t.priority}`,
             projectId: currentProject.id,
-            icon: a.icon,
+            icon: t.icon,
           }));
         results.push(...filteredTasks);
       }

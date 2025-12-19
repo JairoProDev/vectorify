@@ -22,7 +22,7 @@ export default function NewProjectPage() {
   const { addNotification } = useWorkspaceStore();
 
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(searchParams.get('description') || '');
   const [selectedStack, setSelectedStack] = useState(preselectedStack || 'yc-startup');
   const [isCreating, setIsCreating] = useState(false);
 
@@ -68,7 +68,7 @@ export default function NewProjectPage() {
         slug,
         description,
         stack: selectedStack === 'custom' ? undefined : selectedStack,
-      });
+      } as any);
 
       // Redirect to the new project
       router.push(`/workspace/projects/${project.id}`);
@@ -110,11 +110,10 @@ export default function NewProjectPage() {
               return (
                 <Card
                   key={stack.id}
-                  className={`cursor-pointer transition-all ${
-                    selectedStack === stack.id
-                      ? 'border-primary shadow-lg'
-                      : 'hover:shadow-md'
-                  }`}
+                  className={`cursor-pointer transition-all ${selectedStack === stack.id
+                    ? 'border-primary shadow-lg'
+                    : 'hover:shadow-md'
+                    }`}
                   onClick={() => setSelectedStack(stack.id)}
                 >
                   <CardContent className="p-6">

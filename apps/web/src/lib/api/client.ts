@@ -23,7 +23,7 @@ class APIClient {
         'Content-Type': 'application/json',
         ...authHeader,
         ...options?.headers,
-      },
+      } as HeadersInit,
     });
 
     if (!response.ok) {

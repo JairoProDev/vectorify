@@ -19,6 +19,10 @@ interface Project {
   name: string;
   slug: string;
   stack?: string;
+  description?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface WorkspaceState {
@@ -122,10 +126,8 @@ export const useWorkspaceStore = create<WorkspaceState>()(
       }),
       {
         name: 'vectorify-workspace-storage',
-        partialize: (state) => ({
+        partialize: (state: WorkspaceState) => ({
           user: state.user,
-          currentWorkspace: state.currentWorkspace,
-          currentProject: state.currentProject,
           currentWorkspace: state.currentWorkspace,
           currentProject: state.currentProject,
           sidebarOpen: state.sidebarOpen,

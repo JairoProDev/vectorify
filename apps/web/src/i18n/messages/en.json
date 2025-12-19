@@ -570,7 +570,7 @@
           "priceAnnual": "$159",
           "cta": "Start Team Trial",
           "features": {
-            "a": "Up to 10 seats",
+            "a": "Up to 5 seats",
             "b": "Real-time multiplayer",
             "c": "Roles & permissions",
             "d": "Team analytics",
@@ -795,6 +795,10 @@
     "name": "Project Name",
     "description": "Description",
     "stack": "Stack",
+    "hero": {
+      "title": "What do you want to build?",
+      "subtitle": "Describe your business idea, and Vectorify will help you plan and execute it."
+    },
     "chooseStack": "Choose Your Stack",
     "projectDetails": "Give your project a name and description",
     "ycStartup": "YC Startup",

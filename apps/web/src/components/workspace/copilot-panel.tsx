@@ -200,7 +200,7 @@ export function CopilotPanel() {
   };
 
   const sendMessage = async () => {
-    if (!message.trim() || isSending || !currentProject) return;
+    if (!message.trim() || isSending) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -402,12 +402,12 @@ export function CopilotPanel() {
               }
             }}
             className="min-h-[60px] max-h-[120px] resize-none"
-            disabled={isSending || !currentProject}
+            disabled={isSending}
           />
           <Button
             size="icon"
             onClick={sendMessage}
-            disabled={!message.trim() || isSending || !currentProject}
+            disabled={!message.trim() || isSending}
             className="h-[60px]"
           >
             {isSending ? (
