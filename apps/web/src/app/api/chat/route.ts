@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         `\nCurrent Files:\n${JSON.stringify(files.map((f: any) => ({ path: f.path, type: f.type })), null, 2)}` : '';
 
     const result = streamText({
-        model: openai('gpt-4o'),
+        model: openai.chat('gpt-4o'),
         messages,
         system: `You are Vectorify, an intelligent business co-founder and senior engineer. 
     Your goal is to help the user structure their business strategy, execution plan, and codebase.
@@ -32,8 +32,8 @@ export async function POST(req: Request) {
             create_file: tool({
                 description: 'Create a new file in the project workspace.',
                 parameters: z.object({
-                    path: z.string().describe('The path of the file to create (e.g., "src/components/Button.tsx").'),
-                    content: z.string().describe('The content of the file.'),
+                    path: z.string().describe('File path'),
+                    content: z.string().describe('File content'),
                 }),
                 execute: async ({ path, content }) => {
                     return { success: true, message: `File ${path} created.` };
@@ -60,7 +60,9 @@ export async function POST(req: Request) {
             }),
             request_files: tool({
                 description: 'Request the list of current files in the workspace to understand the structure.',
-                parameters: z.object({}),
+                parameters: z.object({
+                    reason: z.string().describe('The reason for requesting the file list.')
+                }),
                 execute: async () => {
                     return { success: true, message: "File list requested." };
                 }
