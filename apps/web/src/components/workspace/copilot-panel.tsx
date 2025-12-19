@@ -13,10 +13,22 @@ import {
   PanelRightClose,
   Paperclip,
   File,
+  X,
+  Image as ImageIcon,
+  FileCode,
+  FileText
 } from 'lucide-react';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
 import { cn } from '@/lib/utils';
 import { useSearchParams } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
+
+interface Attachment {
+  name: string;
+  type: 'image' | 'text' | 'other';
+  content: string; // Base64 for images, text for others
+  preview?: string; // Data URL for images
+}
 
 export function CopilotPanel() {
   const {
@@ -24,19 +36,31 @@ export function CopilotPanel() {
     toggleCopilot,
     files,
     addFile,
-    updateFile
+    updateFile,
+    addNotification
   } = useWorkspaceStore();
+  // const { toast } = useToast();
 
   const searchParams = useSearchParams();
   const initialPrompt = searchParams.get('prompt') || '';
-  const [fileAttachment, setFileAttachment] = useState<{ name: string, content: string } | null>(null);
 
-  const { messages, input, setInput, handleInputChange, handleSubmit, isLoading, toolInvocations, append } = useChat({
+  // Local state for input and attachments
+  const [inputValue, setInputValue] = useState(initialPrompt);
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
+
+  const { messages, isLoading, toolInvocations, append } = useChat({
     api: '/api/chat',
-    initialInput: initialPrompt,
     body: {
       files: files,
     },
+    onError: (error) => {
+      console.error('Chat error:', error);
+      addNotification({
+        type: 'error',
+        title: "Error sending message",
+        message: error.message || "Please check your connection and try again."
+      });
+    }
   });
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -47,10 +71,6 @@ export function CopilotPanel() {
     if (!toolInvocations) return;
 
     for (const toolInvocation of toolInvocations) {
-      // We only care if the tool call has been executed by the server (or at least proposed)
-      // Since we are using server-side execution for the "logic" part, the state is 'result'.
-      // We use this confirmation to update our Client Store.
-
       if (toolInvocation.state === 'result') {
         const { toolName, args } = toolInvocation;
 
@@ -104,32 +124,103 @@ export function CopilotPanel() {
   }, [messages]);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const selectedFiles = e.target.files;
+    if (!selectedFiles) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const content = e.target?.result as string;
-      setFileAttachment({
+    const newAttachments: Attachment[] = [];
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      const isImage = file.type.startsWith('image/');
+
+      let content = '';
+      let preview = '';
+
+      if (isImage) {
+        // Read as Data URL for preview and potentially content
+        try {
+          preview = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(file);
+          });
+          content = preview; // For now sending base64 as content
+        } catch (err) {
+          console.error("Error reading image", err);
+        }
+      } else {
+        // Read as Text
+        try {
+          content = await file.text();
+        } catch (err) {
+          console.error("Error reading text file", err);
+          content = "[Binary or Unreadable Content]";
+        }
+      }
+
+      newAttachments.push({
         name: file.name,
-        content: content
+        type: isImage ? 'image' : 'text',
+        content: content,
+        preview: preview
       });
-    };
-    reader.readAsText(file);
+    }
+
+    setAttachments((prev) => [...prev, ...newAttachments]);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
-  const handleCustomSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input?.trim() && !fileAttachment) return;
+  const removeAttachment = (index: number) => {
+    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  };
 
-    let finalInput = input || '';
-    if (fileAttachment) {
-      finalInput = `${input}\n\n--- Attached File: ${fileAttachment.name} ---\n${fileAttachment.content}\n--- End Attachment ---`;
-      setInput('');
-      setFileAttachment(null);
-      append({ role: 'user', content: finalInput });
-    } else {
-      handleSubmit(e, { body: { files } });
+  const handleCustomSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if ((!inputValue.trim() && attachments.length === 0) || isLoading) return;
+
+    const currentInput = inputValue;
+    const currentAttachments = [...attachments];
+
+    // Optimistic UI updates are handled by useChat append usually, 
+    // but we want to ensure we format the message correctly.
+
+    let finalContent = currentInput;
+
+    // Append attachment info to the prompt
+    // Ideally we would use the experimental_attachments from ai/react 
+    // but for stability with current setup, we'll append to text.
+    if (currentAttachments.length > 0) {
+      const attachmentText = currentAttachments.map(att => {
+        if (att.type === 'image') {
+          return `\n\n[Attached Image: ${att.name}]\n(Image content omitted for text-only model compatibility, treat as placeholder)`;
+        }
+        return `\n\n--- Attached File: ${att.name} ---\n${att.content}\n--- End Attachment ---`;
+      }).join('');
+      finalContent = `${finalContent}${attachmentText}`;
+    }
+
+    // Clear state
+    setInputValue('');
+    setAttachments([]);
+
+    try {
+      await append({
+        role: 'user',
+        content: finalContent
+      });
+    } catch (err) {
+      console.error("Failed to send message", err);
+      // Restore state if failed
+      setInputValue(currentInput);
+      setAttachments(currentAttachments);
+      toast({
+        title: "Failed to send",
+        description: "Could not send your message. Restored your input.",
+        variant: "destructive"
+      });
     }
   };
 
@@ -171,13 +262,17 @@ export function CopilotPanel() {
                 {m.role === 'user' ? 'You' : 'Vector'}
               </div>
               <div className="whitespace-pre-wrap">{m.content}</div>
+              {/* Render Tool Results (Files Created) */}
               {m.toolInvocations?.map((toolInvocation) => {
                 const toolCallId = toolInvocation.toolCallId;
                 if (toolInvocation.toolName === 'create_file') {
                   return (
-                    <div key={toolCallId} className="mt-2 p-2 bg-background/50 rounded text-xs border border-border">
-                      <File className="inline-block w-3 h-3 mr-1" />
-                      Created file: <span className="font-mono">{toolInvocation.args.path}</span>
+                    <div key={toolCallId} className="mt-2 p-2 bg-background/50 rounded text-xs border border-border flex items-center gap-2">
+                      <FileCode className="h-4 w-4 text-green-500" />
+                      <div>
+                        <div className="font-semibold">Created file</div>
+                        <span className="font-mono opacity-80">{toolInvocation.args.path}</span>
+                      </div>
                     </div>
                   );
                 }
@@ -199,60 +294,75 @@ export function CopilotPanel() {
         </div>
       </ScrollArea>
 
-      <div className="border-t p-4">
-        {fileAttachment && (
-          <div className="mb-2 flex items-center gap-2 rounded bg-muted p-2 text-xs">
-            <File className="h-3 w-3" />
-            <span className="truncate max-w-[200px]">{fileAttachment.name}</span>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-4 w-4 ml-auto"
-              onClick={() => setFileAttachment(null)}
-            >
-              <PanelRightClose className="h-3 w-3 rotate-45" />
-            </Button>
+      {/* Input Area */}
+      <div className="border-t p-4 bg-background">
+        {/* Attachment Previews */}
+        {attachments.length > 0 && (
+          <div className="mb-3 flex flex-wrap gap-2 max-h-[140px] overflow-y-auto p-1">
+            {attachments.map((att, idx) => (
+              <div key={idx} className="relative group flex items-center justify-center border rounded-md bg-muted/50 overflow-hidden w-20 h-20">
+                {att.type === 'image' && att.preview ? (
+                  <img src={att.preview} alt={att.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="flex flex-col items-center justify-center p-2 text-center">
+                    <FileText className="h-6 w-6 mb-1 opacity-50" />
+                    <span className="text-[10px] leading-tight truncate w-full px-1">{att.name}</span>
+                  </div>
+                )}
+
+                <button
+                  onClick={() => removeAttachment(idx)}
+                  className="absolute top-0 right-0 p-1 bg-black/50 text-white rounded-bl-md opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+            ))}
           </div>
         )}
 
-        <form onSubmit={handleCustomSubmit} className="relative flex items-center gap-2">
-          <input
-            type="file"
-            ref={fileInputRef}
-            className="hidden"
-            onChange={handleFileSelect}
-          />
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => fileInputRef.current?.click()}
-            title="Attach file"
-          >
-            <Paperclip className="h-4 w-4" />
-          </Button>
+        <form onSubmit={handleCustomSubmit} className="relative flex items-end gap-2">
+          {/* File Upload Button */}
+          <div>
+            <input
+              type="file"
+              multiple
+              ref={fileInputRef}
+              className="hidden"
+              onChange={handleFileSelect}
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-10 w-10 rounded-full"
+              onClick={() => fileInputRef.current?.click()}
+              title="Attach files"
+            >
+              <Paperclip className="h-5 w-5" />
+            </Button>
+          </div>
 
+          {/* Text Input */}
           <Textarea
-            value={input}
-            onChange={handleInputChange}
-            placeholder="Describe your idea or attach a file..."
-            className="min-h-[40px] max-h-[120px] resize-none pr-10"
-            onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Describe your idea or attach files..."
+            className="min-h-[40px] max-h-[120px] resize-none py-3"
+            onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                // We need to cast e to any or construct a synthetic form event, 
-                // but handleCustomSubmit takes React.FormEvent. 
-                // Since FormEvent is compatible with KeyboardEvent in some contexts (both have preventDefault),
-                // we can just cast it or wrap it.
-                handleCustomSubmit(e as unknown as React.FormEvent);
+                handleCustomSubmit();
               }
             }}
           />
+
+          {/* Send Button */}
           <Button
             type="submit"
             size="icon"
-            className="absolute right-2 top-1 h-8 w-8"
-            disabled={(!input?.trim() && !fileAttachment) || isLoading}
+            className="h-10 w-10 rounded-full shrink-0"
+            disabled={(!inputValue.trim() && attachments.length === 0) || isLoading}
           >
             <Send className="h-4 w-4" />
           </Button>
