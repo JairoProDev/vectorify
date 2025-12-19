@@ -56,11 +56,30 @@ interface WorkspaceState {
   pendingAgentMessage: string | null;
   setPendingAgentMessage: (message: string | null) => void;
 
+  // Files
+  files: WorkspaceFile[];
+  setFiles: (files: WorkspaceFile[]) => void;
+  addFile: (file: WorkspaceFile) => void;
+  updateFile: (id: string, updates: Partial<WorkspaceFile>) => void;
+  deleteFile: (id: string) => void;
+  getFileContent: (path: string) => string | undefined;
+
   // Notifications
   notifications: Notification[];
   addNotification: (notification: Omit<Notification, 'id' | 'timestamp'>) => void;
   removeNotification: (id: string) => void;
   clearNotifications: () => void;
+}
+
+export interface WorkspaceFile {
+  id: string;
+  name: string;
+  path: string;
+  type: 'file' | 'folder';
+  content?: string;
+  parentId?: string | null;
+  createdAt: number;
+  updatedAt: number;
 }
 
 interface Notification {
@@ -74,7 +93,7 @@ interface Notification {
 export const useWorkspaceStore = create<WorkspaceState>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get: () => WorkspaceState) => ({
         // User
         user: null,
         setUser: (user) => set({ user }),
@@ -105,6 +124,22 @@ export const useWorkspaceStore = create<WorkspaceState>()(
         pendingAgentMessage: null,
         setPendingAgentMessage: (message) => set({ pendingAgentMessage: message }),
 
+        // Files
+        files: [],
+        setFiles: (files) => set({ files }),
+        addFile: (file) => set((state) => ({ files: [...state.files, file] })),
+        updateFile: (id, updates) =>
+          set((state) => ({
+            files: state.files.map((f) => (f.id === id ? { ...f, ...updates } : f)),
+          })),
+        deleteFile: (id) =>
+          set((state) => ({
+            files: state.files.filter((f) => f.id !== id && f.parentId !== id),
+          })),
+        getFileContent: (path) => {
+          return get().files.find(f => f.path === path)?.content;
+        },
+
         // Notifications
         notifications: [],
         addNotification: (notification) =>
@@ -133,6 +168,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
           sidebarOpen: state.sidebarOpen,
           copilotOpen: state.copilotOpen,
           activeSidebarView: state.activeSidebarView,
+          files: state.files,
         }),
       }
     ),
