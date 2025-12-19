@@ -20,30 +20,25 @@ export async function POST(req: Request) {
     
     Always be proactive. Instead of just chatting, use the tools to modify the project state.
     `,
-        tools: {
-            update_strategy: tool({
-                description: 'Update the strategy document content. Use markdown.',
-                parameters: z.object({
-                    content: z.string().describe('The new or updated markdown content for the strategy document.'),
-                    rationale: z.string().describe('Short explanation of why this change was made.'),
-                }),
-                execute: async ({ content }) => {
-                    // In a real app, we would save to DB here.
-                    // For MVP streaming, the tool call is sent to client, client handles the state update.
-                    return { content };
-                },
-            }),
-            create_tasks: tool({
-                description: 'Create a list of execution tasks.',
-                parameters: z.object({
-                    tasks: z.array(z.string()).describe('List of task titles to create.'),
-                }),
-                execute: async ({ tasks }) => {
-                    return { tasks };
-                },
-            }),
-        },
+        // tools: {
+        //     update_strategy: tool({
+        //         description: 'Update the strategy document content. Use markdown.',
+        //         parameters: z.object({
+        //             content: z.string().describe('The new or updated markdown content for the strategy document.'),
+        //             rationale: z.string().describe('Short explanation of why this change was made.'),
+        //         }),
+        //         execute: async ({ content, rationale }: { content: string, rationale: string }) => {
+        //             return { content, rationale };
+        //         },
+        //     }),
+        //     create_tasks: tool({
+        //         description: 'Create a list of execution tasks.',
+        //         parameters: z.object({
+        //             tasks: z.array(z.string()).describe('List of task titles to create.'),
+        //         }),
+        //     }),
+        // },
     });
 
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
 }

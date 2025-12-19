@@ -1,6 +1,6 @@
 'use client';
 
-import { Files, Search, GitBranch, MessageSquare, Settings } from 'lucide-react';
+import { Files, Search, GitBranch, Settings, Blocks } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
@@ -10,7 +10,7 @@ interface ActivityBarProps {
 }
 
 export function ActivityBar({ className }: ActivityBarProps) {
-    const { sidebarOpen, toggleSidebar } = useWorkspaceStore();
+    const { activeSidebarView, setActiveSidebarView } = useWorkspaceStore();
 
     return (
         <div className={cn("w-12 flex flex-col items-center py-4 border-r border-border bg-card/50", className)}>
@@ -18,16 +18,36 @@ export function ActivityBar({ className }: ActivityBarProps) {
                 <ActivityButton
                     icon={Files}
                     label="Explorer"
-                    active={sidebarOpen}
-                    onClick={toggleSidebar}
+                    active={activeSidebarView === 'explorer'}
+                    onClick={() => setActiveSidebarView(activeSidebarView === 'explorer' ? null : 'explorer')}
                 />
-                <ActivityButton icon={Search} label="Search" />
-                <ActivityButton icon={GitBranch} label="Version Control" />
-                <ActivityButton icon={MessageSquare} label="Chat History" />
+                <ActivityButton
+                    icon={Search}
+                    label="Search"
+                    active={activeSidebarView === 'search'}
+                    onClick={() => setActiveSidebarView(activeSidebarView === 'search' ? null : 'search')}
+                />
+                <ActivityButton
+                    icon={GitBranch}
+                    label="Version Control"
+                    active={activeSidebarView === 'git'}
+                    onClick={() => setActiveSidebarView(activeSidebarView === 'git' ? null : 'git')}
+                />
+                <ActivityButton
+                    icon={Blocks}
+                    label="Agent Marketplace"
+                    active={activeSidebarView === 'market'}
+                    onClick={() => setActiveSidebarView(activeSidebarView === 'market' ? null : 'market')}
+                />
             </div>
 
             <div className="flex flex-col gap-2 w-full px-2">
-                <ActivityButton icon={Settings} label="Settings" />
+                <ActivityButton
+                    icon={Settings}
+                    label="Settings"
+                    active={activeSidebarView === 'settings'}
+                    onClick={() => setActiveSidebarView(activeSidebarView === 'settings' ? null : 'settings')}
+                />
             </div>
         </div>
     );

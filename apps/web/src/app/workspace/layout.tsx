@@ -2,6 +2,7 @@
 
 import { Sidebar } from '@/components/workspace/sidebar';
 import { CopilotPanel } from '@/components/workspace/copilot-panel';
+import { ExtensionsView } from '@/components/workspace/extensions-view';
 import { WorkspaceHeader } from '@/components/workspace/workspace-header';
 import { ActivityBar } from '@/components/workspace/activity-bar';
 import { BottomPanel } from '@/components/workspace/bottom-panel';
@@ -9,11 +10,12 @@ import { Toaster } from '@/components/ui/toaster';
 import { CommandPalette } from '@/components/workspace/command-palette';
 import { QuickCreateDialog } from '@/components/workspace/quick-create-dialog';
 import { KeyboardShortcutsDialog } from '@/components/workspace/keyboard-shortcuts-dialog';
+import { VersionControlView } from '@/components/workspace/version-control-view';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
 import { useState, useEffect } from 'react';
 
 export default function WorkspaceLayout({ children }: { children: React.ReactNode }) {
-  const { sidebarOpen, copilotOpen, toggleSidebar, toggleCopilot } = useWorkspaceStore();
+  const { sidebarOpen, copilotOpen, activeSidebarView, toggleSidebar, toggleCopilot } = useWorkspaceStore();
   const [commandOpen, setCommandOpen] = useState(false);
   const [quickCreateOpen, setQuickCreateOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
@@ -69,7 +71,18 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
           {/* Left Sidebar - File Navigator */}
           {sidebarOpen && (
             <div className="w-64 border-r border-border flex flex-col bg-card/30">
-              <Sidebar />
+              {activeSidebarView === 'market' ? (
+                <ExtensionsView />
+              ) : activeSidebarView === 'explorer' ? (
+                <Sidebar />
+              ) : activeSidebarView === 'git' ? (
+                <VersionControlView />
+              ) : (
+                <div className="p-4 text-sm text-muted-foreground flex flex-col items-center justify-center h-full text-center">
+                  <span className="mb-2 block">Icon for {activeSidebarView}</span>
+                  View not implemented
+                </div>
+              )}
             </div>
           )}
 

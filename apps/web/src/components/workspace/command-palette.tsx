@@ -24,6 +24,9 @@ import {
   Loader2,
   Home,
   LayoutDashboard,
+  Target,
+  Mail,
+  Briefcase,
 } from 'lucide-react';
 import { useWorkspaceStore } from '@/lib/store/use-workspace-store';
 import { useDebounce } from '@/hooks/use-debounce';
@@ -44,12 +47,18 @@ interface SearchResult {
 
 export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   const router = useRouter();
-  const { currentProject } = useWorkspaceStore();
+  const { currentProject, setPendingAgentMessage, setCopilotOpen } = useWorkspaceStore();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
   const debouncedSearch = useDebounce(search, 300);
+
+  const executeAgentTask = (taskName: string, prompt: string) => {
+    onOpenChange(false);
+    setCopilotOpen(true);
+    setPendingAgentMessage(prompt); // We can just send the prompt directly
+  };
 
   // Keyboard shortcut
   useEffect(() => {
@@ -120,6 +129,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
             name: t.title,
             description: `${t.status} • ${t.priority}`,
             projectId: currentProject.id,
+            icon: a.icon,
           }));
         results.push(...filteredTasks);
       }
@@ -242,6 +252,27 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
         {/* Quick Actions - Only show when no search */}
         {!search && (
           <>
+            <CommandGroup heading="Business Tasks">
+              <CommandItem onSelect={() => runCommand(() => executeAgentTask('Marketing: Audit Competitors', 'Perform a comprehensive competitive audit for our niche. Identify top 3 competitors, their strengths/weaknesses, and our opportunity gaps.'))}>
+                <Target className="mr-2 h-4 w-4 text-red-500" />
+                <span>Marketing: Audit Competitors</span>
+              </CommandItem>
+              <CommandItem onSelect={() => runCommand(() => executeAgentTask('Marketing: Generate Content Plan', 'Create a 4-week content marketing plan focusing on high-intent keywords. Include blog topics, social media posts, and distribution channels.'))}>
+                <FileText className="mr-2 h-4 w-4 text-blue-500" />
+                <span>Marketing: Generate Content Plan</span>
+              </CommandItem>
+              <CommandItem onSelect={() => runCommand(() => executeAgentTask('Sales: Draft Outreach Email', 'Draft a high-converting cold outreach email for potential B2B partners. Focus on value proposition and clear CTA.'))}>
+                <Mail className="mr-2 h-4 w-4 text-yellow-500" />
+                <span>Sales: Draft Outreach Email</span>
+              </CommandItem>
+              <CommandItem onSelect={() => runCommand(() => executeAgentTask('Business: SWOT Analysis', 'Conduct a detailed SWOT analysis for the current project state. Focus on actionable insights for the next quarter.'))}>
+                <Briefcase className="mr-2 h-4 w-4 text-purple-500" />
+                <span>Business: SWOT Analysis</span>
+              </CommandItem>
+            </CommandGroup>
+
+            <CommandSeparator />
+
             <CommandGroup heading="Quick Actions">
               <CommandItem
                 onSelect={() => runCommand(() => router.push('/workspace/new?stack=yc-startup'))}

@@ -41,10 +41,16 @@ interface WorkspaceState {
   // UI State
   sidebarOpen: boolean;
   copilotOpen: boolean;
+  activeSidebarView: 'explorer' | 'search' | 'git' | 'market' | 'settings' | null;
   toggleSidebar: () => void;
   toggleCopilot: () => void;
   setSidebarOpen: (open: boolean) => void;
   setCopilotOpen: (open: boolean) => void;
+  setActiveSidebarView: (view: 'explorer' | 'search' | 'git' | 'market' | 'settings' | null) => void;
+
+  // Agent Interaction
+  pendingAgentMessage: string | null;
+  setPendingAgentMessage: (message: string | null) => void;
 
   // Notifications
   notifications: Notification[];
@@ -84,10 +90,16 @@ export const useWorkspaceStore = create<WorkspaceState>()(
         // UI State
         sidebarOpen: true,
         copilotOpen: true,
+        activeSidebarView: 'explorer',
         toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
         toggleCopilot: () => set((state) => ({ copilotOpen: !state.copilotOpen })),
         setSidebarOpen: (open) => set({ sidebarOpen: open }),
         setCopilotOpen: (open) => set({ copilotOpen: open }),
+        setActiveSidebarView: (view) => set({ activeSidebarView: view, sidebarOpen: !!view }),
+
+        // Agent Interaction
+        pendingAgentMessage: null,
+        setPendingAgentMessage: (message) => set({ pendingAgentMessage: message }),
 
         // Notifications
         notifications: [],
@@ -114,8 +126,11 @@ export const useWorkspaceStore = create<WorkspaceState>()(
           user: state.user,
           currentWorkspace: state.currentWorkspace,
           currentProject: state.currentProject,
+          currentWorkspace: state.currentWorkspace,
+          currentProject: state.currentProject,
           sidebarOpen: state.sidebarOpen,
           copilotOpen: state.copilotOpen,
+          activeSidebarView: state.activeSidebarView,
         }),
       }
     ),

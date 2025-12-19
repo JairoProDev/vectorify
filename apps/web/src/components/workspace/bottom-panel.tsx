@@ -1,6 +1,6 @@
 'use client';
 
-import { Terminal, Activity, ListTodo } from 'lucide-react';
+import { Terminal, Activity, ListTodo, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
@@ -29,6 +29,14 @@ export function BottomPanel() {
                     active={activeTab === 'tasks'}
                     onClick={() => setActiveTab('tasks')}
                 />
+
+                <div className="ml-auto flex items-center gap-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/10 text-green-500 border border-green-500/20">
+                        <Zap className="h-3 w-3 fill-current" />
+                        Saved: 12h
+                    </span>
+                    <span className="opacity-50">v0.1.0</span>
+                </div>
             </div>
 
             {/* Content */}

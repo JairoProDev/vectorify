@@ -40,7 +40,7 @@ interface Suggestion {
 }
 
 export function CopilotPanel() {
-  const { currentProject, addNotification } = useWorkspaceStore();
+  const { currentProject, addNotification, pendingAgentMessage, setPendingAgentMessage } = useWorkspaceStore();
   const { t } = useI18n();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
@@ -48,6 +48,41 @@ export function CopilotPanel() {
   const [isSending, setIsSending] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Auto-execute pending agent messages/commands
+    if (pendingAgentMessage && !isSending) {
+      setMessage(pendingAgentMessage);
+      // We need to use a timeout to allow the state to update before sending, 
+      // or we could refactor sendMessage to accept an argument.
+      // Let's refactor sendMessage to be safer.
+      handleAutoSend(pendingAgentMessage);
+    }
+  }, [pendingAgentMessage]);
+
+  const handleAutoSend = async (msg: string) => {
+    setPendingAgentMessage(null);
+    if (!currentProject) return;
+
+    // Create immediate user message
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: msg,
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setMessage('');
+    setIsSending(true);
+
+    try {
+      await processMessage(msg, [...messages, userMessage]);
+    } catch (error) {
+      console.error("Auto-send failed", error);
+      setIsSending(false);
+    }
+  };
 
   useEffect(() => {
     // Load initial suggestions when project changes
@@ -103,20 +138,7 @@ export function CopilotPanel() {
     }
   };
 
-  const sendMessage = async () => {
-    if (!message.trim() || isSending || !currentProject) return;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: message.trim(),
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setMessage('');
-    setIsSending(true);
-
+  const processMessage = async (content: string, history: Message[]) => {
     try {
       // Call AI backend
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3004/api/v1'}/ai/complete`, {
@@ -129,15 +151,14 @@ export function CopilotPanel() {
             {
               role: 'system',
               content: `You are Vector, an AI assistant helping with project development.
-              Current project: ${currentProject.name}
-              Project type: ${currentProject.stack || 'Custom'}
+              Current project: ${currentProject?.name}
+              Project type: ${currentProject?.stack || 'Custom'}
               You help with strategy, planning, and execution. Be concise and actionable.`,
             },
-            ...messages.map((m) => ({
+            ...history.map((m) => ({
               role: m.role,
               content: m.content,
             })),
-            { role: 'user', content: userMessage.content },
           ],
         }),
       });
@@ -172,9 +193,27 @@ export function CopilotPanel() {
           timestamp: new Date(),
         },
       ]);
+      throw error;
     } finally {
       setIsSending(false);
     }
+  };
+
+  const sendMessage = async () => {
+    if (!message.trim() || isSending || !currentProject) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: message.trim(),
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setMessage('');
+    setIsSending(true);
+
+    await processMessage(userMessage.content, [...messages, userMessage]);
   };
 
   const quickPrompts = [
@@ -303,11 +342,10 @@ export function CopilotPanel() {
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-lg px-3 py-2 ${
-                      msg.role === 'user'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted'
-                    }`}
+                    className={`max-w-[85%] rounded-lg px-3 py-2 ${msg.role === 'user'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted'
+                      }`}
                   >
                     <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                     <p className="text-xs opacity-70 mt-1">
