@@ -3,6 +3,8 @@
 import { Sidebar } from '@/components/workspace/sidebar';
 import { CopilotPanel } from '@/components/workspace/copilot-panel';
 import { WorkspaceHeader } from '@/components/workspace/workspace-header';
+import { ActivityBar } from '@/components/workspace/activity-bar';
+import { BottomPanel } from '@/components/workspace/bottom-panel';
 import { Toaster } from '@/components/ui/toaster';
 import { CommandPalette } from '@/components/workspace/command-palette';
 import { QuickCreateDialog } from '@/components/workspace/quick-create-dialog';
@@ -50,7 +52,7 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
 
   return (
     <>
-      <div className="ide-layout flex flex-col">
+      <div className="h-screen flex flex-col overflow-hidden bg-background">
         {/* Header */}
         <WorkspaceHeader
           onToggleSidebar={toggleSidebar}
@@ -60,20 +62,31 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
         />
 
         {/* Main IDE Layout */}
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex-1 flex overflow-hidden">
+          {/* Activity Bar (Far Left) */}
+          <ActivityBar />
+
           {/* Left Sidebar - File Navigator */}
           {sidebarOpen && (
-            <div className="sidebar w-64 overflow-y-auto">
+            <div className="w-64 border-r border-border flex flex-col bg-card/30">
               <Sidebar />
             </div>
           )}
 
-          {/* Center - Editor Panel */}
-          <div className="editor-panel flex-1 overflow-y-auto">{children}</div>
+          {/* Center Area */}
+          <div className="flex-1 flex flex-col min-w-0 bg-background/50">
+            {/* Editor Panel */}
+            <div className="flex-1 overflow-hidden relative">
+              {children}
+            </div>
+
+            {/* Bottom Panel */}
+            <BottomPanel />
+          </div>
 
           {/* Right Sidebar - AI Copilot */}
           {copilotOpen && (
-            <div className="copilot-panel w-96 overflow-y-auto">
+            <div className="w-96 border-l border-border bg-card/30 flex flex-col">
               <CopilotPanel />
             </div>
           )}

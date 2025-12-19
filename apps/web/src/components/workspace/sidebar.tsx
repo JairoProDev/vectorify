@@ -38,12 +38,14 @@ export function Sidebar() {
   const { t } = useI18n();
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
   const [folders, setFolders] = useState<Folder[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!currentProject?.id);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (currentProject?.id) {
       fetchProjectStructure();
+    } else {
+      setLoading(false);
     }
   }, [currentProject?.id]);
 
@@ -110,11 +112,11 @@ export function Sidebar() {
 
   const filteredFolders = searchQuery
     ? folders.map((folder) => ({
-        ...folder,
-        artifacts: folder.artifacts.filter((artifact) =>
-          artifact.name.toLowerCase().includes(searchQuery.toLowerCase())
-        ),
-      }))
+      ...folder,
+      artifacts: folder.artifacts.filter((artifact) =>
+        artifact.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    }))
     : folders;
 
   return (
