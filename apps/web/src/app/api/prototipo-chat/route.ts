@@ -22,12 +22,13 @@ export async function POST(req: Request) {
             aiProvider = createOpenAI({ apiKey: apiKey.trim() });
         }
     } catch (e) {
-        console.warn("Could not create custom OpenAI instance, falling back to default.", e);
+        console.warn('Could not create custom OpenAI instance, falling back to default.', e);
     }
 
-    const fileContext = files && files.length > 0 ?
-        `\nArchivos actuales en tu workspace:\n${files.map((f: any) => `- ${f.name}`).join('\n')}\n` :
-        '\nNo hay archivos en el workspace todavía.\n';
+    const fileContext =
+        files && files.length > 0
+            ? `\nArchivos actuales en tu workspace:\n${files.map((f: { path: string }) => `- ${f.path}`).join('\n')}\n`
+            : '\nNo hay archivos en el workspace todavía.\n';
 
     const systemPrompt = `Eres Vectorify AI, un co-fundador técnico y estratega de negocios para startups.
 Tu usuario NO es un programador ni experto técnico, es un emprendedor con una pura idea. Tu interfaz es súper sencilla. Tu tono debe ser inspirador, simple, directo y muy colaborativo.
@@ -43,14 +44,17 @@ ${fileContext}
 
     try {
         const result = streamText({
-            model: aiProvider('gpt-4o'), // Defaulting to gpt-4o as it's typically highly capable
+            model: aiProvider('gpt-4o'),
             messages,
             system: systemPrompt,
             tools: {
                 create_file: tool({
-                    description: 'Crea un nuevo archivo en el lienzo del proyecto (ej. "modelo_negocio.md"). Úsalo siempre para documentos o planes.',
-                    parameters: z.object({
-                        path: z.string().describe('Nombre descriptivo del archivo con extensión, ej. "idea_principal.md"'),
+                    description:
+                        'Crea un nuevo archivo en el lienzo del proyecto (ej. "modelo_negocio.md"). Úsalo siempre para documentos o planes.',
+                    inputSchema: z.object({
+                        path: z
+                            .string()
+                            .describe('Nombre descriptivo del archivo con extensión, ej. "idea_principal.md"'),
                         content: z.string().describe('El contenido inicial del archivo, en MarkDown limpio.'),
                     }),
                     execute: async ({ path, content }) => {
@@ -59,21 +63,24 @@ ${fileContext}
                 }),
                 update_file: tool({
                     description: 'Actualiza el contenido de un documento que el usuario ya tiene en su workspace.',
-                    parameters: z.object({
+                    inputSchema: z.object({
                         path: z.string().describe('El nombre exacto del archivo a actualizar.'),
                         content: z.string().describe('Todo el nuevo contenido completo del archivo.'),
                     }),
                     execute: async ({ path, content }) => {
                         return { success: true, message: `Archivo ${path} actualizado.` };
                     },
-                })
+                }),
             },
         });
 
-        // Sending standard AI SDK response stream
-        return result.toDataStreamResponse();
-    } catch (error: any) {
-        console.error("AI Error:", error);
-        return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+        return result.toUIMessageStreamResponse();
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        console.error('AI Error:', message);
+        return new Response(JSON.stringify({ error: message }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
     }
 }

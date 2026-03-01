@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@ai-sdk/react';
-import { Button } from '@/components/ui/button';
-import { Send, FileText, Bot, Plus, Sparkles, Key, Loader2, ArrowRight } from 'lucide-react';
+import { FileText, Bot, Sparkles, Key, Loader2, ArrowRight } from 'lucide-react';
+import type { UIMessage } from 'ai';
+import { HttpChatTransport } from 'ai';
 
 interface ProjectFile {
     id: string;
@@ -11,95 +12,129 @@ interface ProjectFile {
     content: string;
 }
 
-export default function PrototipoCleanPage() {
+export default function PrototipoPage() {
     const [files, setFiles] = useState<ProjectFile[]>([]);
     const [activeFileId, setActiveFileId] = useState<string | null>(null);
+    const [inputText, setInputText] = useState<string>('');
     const [apiKey, setApiKey] = useState<string>('');
     const [showApiInput, setShowApiInput] = useState<boolean>(false);
 
-    const activeFile = files.find(f => f.id === activeFileId);
-    const lastToolCallProcessedRef = useRef<Set<string>>(new Set());
+    const activeFile = files.find((f) => f.id === activeFileId);
+    const processedToolCallsRef = useRef<Set<string>>(new Set());
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
-        api: '/api/prototipo-chat',
-        body: {
-            files,
-            apiKey
-        }
+    const { messages, sendMessage, status, error } = useChat({
+        transport: new HttpChatTransport({
+            api: '/api/prototipo-chat',
+        }),
     });
 
-    // Observe tool calls specifically to populate sidebar AND select new file automatically
+    const isLoading = status === 'streaming' || status === 'submitted';
+
+    // Auto-scroll to bottom of messages
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
+
+    // Process tool calls from messages to populate file list
     useEffect(() => {
         let filesChanged = false;
         const currentFiles = [...files];
 
-        messages.forEach(m => {
-            if (m.toolInvocations) {
-                m.toolInvocations.forEach(tool => {
-                    if (tool.state === 'result' && !lastToolCallProcessedRef.current.has(tool.toolCallId)) {
-                        lastToolCallProcessedRef.current.add(tool.toolCallId);
+        messages.forEach((msg: UIMessage) => {
+            if (msg.role !== 'assistant') return;
 
-                        if (tool.toolName === 'create_file') {
-                            const { path, content } = tool.args;
-                            // check if exists
-                            const existingIdx = currentFiles.findIndex(f => f.path === path);
-                            if (existingIdx === -1) {
-                                currentFiles.push({
-                                    id: tool.toolCallId,
-                                    path,
-                                    content
-                                });
-                                filesChanged = true;
-                            }
-                        } else if (tool.toolName === 'update_file') {
-                            const { path, content } = tool.args;
-                            const existingIdx = currentFiles.findIndex(f => f.path === path);
-                            if (existingIdx !== -1) {
-                                currentFiles[existingIdx].content = content;
-                                filesChanged = true;
-                            }
-                        }
+            msg.parts.forEach((part) => {
+                if (part.type !== 'tool-invocation') return;
+
+                const ti = part.toolInvocation;
+                const callId = ti.toolCallId;
+
+                if (processedToolCallsRef.current.has(callId)) return;
+                if (ti.state !== 'result') return;
+
+                processedToolCallsRef.current.add(callId);
+
+                const args = ti.input as { path: string; content: string };
+
+                if (ti.toolName === 'create_file') {
+                    const exists = currentFiles.findIndex((f) => f.path === args.path);
+                    if (exists === -1) {
+                        currentFiles.push({ id: callId, path: args.path, content: args.content });
+                        filesChanged = true;
                     }
-                });
-            }
+                } else if (ti.toolName === 'update_file') {
+                    const existingIdx = currentFiles.findIndex((f) => f.path === args.path);
+                    if (existingIdx !== -1) {
+                        currentFiles[existingIdx] = { ...currentFiles[existingIdx], content: args.content };
+                        filesChanged = true;
+                    }
+                }
+            });
         });
 
         if (filesChanged) {
             setFiles(currentFiles);
-            // Select newest file if no active file
             if (!activeFileId && currentFiles.length > 0) {
                 setActiveFileId(currentFiles[currentFiles.length - 1].id);
             }
         }
     }, [messages, files, activeFileId]);
 
-
     const handleEditorChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (!activeFileId) return;
-        setFiles(files.map(f => f.id === activeFileId ? { ...f, content: e.target.value } : f));
-    }
+        setFiles(files.map((f) => (f.id === activeFileId ? { ...f, content: e.target.value } : f)));
+    };
 
+    const handleSend = () => {
+        if (!inputText?.trim() || isLoading) return;
+        sendMessage({ role: 'user', content: inputText });
+        setInputText('');
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
+    };
+
+    // Helper to extract text from a UIMessage
+    const getMessageText = (msg: UIMessage): string => {
+        return msg.parts
+            .filter((p) => p.type === 'text')
+            .map((p) => (p.type === 'text' ? p.text : ''))
+            .join('');
+    };
+
+    // Helper to get tool invocation parts from a UIMessage
+    const getToolParts = (msg: UIMessage) => {
+        return msg.parts.filter((p) => p.type === 'tool-invocation');
+    };
 
     return (
         <div className="flex h-screen w-full bg-[#f8fafc] text-slate-800 font-sans overflow-hidden">
             {/* 1. Left Sidebar: Documentos */}
-            <div className="w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm z-10">
+            <div className="w-64 bg-white border-r border-slate-200 flex flex-col shadow-sm z-10 flex-shrink-0">
                 <div className="p-4 border-b border-slate-100 flex items-center gap-2 bg-indigo-50/50">
                     <Sparkles className="w-5 h-5 text-indigo-600" />
                     <h1 className="font-bold text-slate-800">Vectorify MVP</h1>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-3">
-                    <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2">Mis Documentos</h2>
+                    <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2">
+                        Mis Documentos
+                    </h2>
 
                     {files.length === 0 ? (
                         <div className="px-2 text-sm text-slate-500 italic">
-                            Aún no hay documentos.<br />
+                            Aún no hay documentos.
+                            <br />
                             ¡Cuéntale tu idea al asistente!
                         </div>
                     ) : (
                         <div className="flex flex-col gap-1">
-                            {files.map(f => (
+                            {files.map((f) => (
                                 <button
                                     key={f.id}
                                     onClick={() => setActiveFileId(f.id)}
@@ -108,7 +143,9 @@ export default function PrototipoCleanPage() {
                                         : 'text-slate-600 hover:bg-slate-50'
                                         }`}
                                 >
-                                    <FileText className={`w-4 h-4 ${activeFileId === f.id ? 'text-indigo-600' : 'text-slate-400'}`} />
+                                    <FileText
+                                        className={`w-4 h-4 flex-shrink-0 ${activeFileId === f.id ? 'text-indigo-600' : 'text-slate-400'}`}
+                                    />
                                     <span className="truncate">{f.path}</span>
                                 </button>
                             ))}
@@ -142,13 +179,15 @@ export default function PrototipoCleanPage() {
                             <FileText className="w-8 h-8 text-slate-300" />
                         </div>
                         <p className="text-lg">Ningún documento abierto</p>
-                        <p className="text-sm">Inicia una conversación a la derecha para generar tu primer archivo.</p>
+                        <p className="text-sm text-center px-8">
+                            Inicia una conversación a la derecha para generar tu primer archivo.
+                        </p>
                     </div>
                 )}
             </div>
 
             {/* 3. Right Sidebar: Asistente Chat */}
-            <div className="w-[400px] bg-white border-l border-slate-200 flex flex-col shadow-sm">
+            <div className="w-[400px] bg-white border-l border-slate-200 flex flex-col shadow-sm flex-shrink-0">
                 <div className="h-14 border-b border-slate-100 flex items-center justify-between px-4 bg-slate-50/50">
                     <div className="flex items-center gap-2">
                         <Bot className="w-5 h-5 text-indigo-600" />
@@ -165,7 +204,9 @@ export default function PrototipoCleanPage() {
 
                 {showApiInput && (
                     <div className="p-4 border-b border-slate-100 bg-indigo-50/50">
-                        <label className="text-xs font-semibold text-indigo-800 mb-1 block">Tu API Key de OpenAI (Gpt-4o):</label>
+                        <label className="text-xs font-semibold text-indigo-800 mb-1 block">
+                            Tu API Key de OpenAI (gpt-4o):
+                        </label>
                         <input
                             type="password"
                             value={apiKey}
@@ -173,7 +214,9 @@ export default function PrototipoCleanPage() {
                             placeholder="sk-proj-..."
                             className="w-full text-sm p-2 rounded border border-indigo-200 focus:outline-none focus:ring-2 ring-indigo-500/20"
                         />
-                        <p className="text-[10px] text-indigo-600 mt-1">Si la dejes vacía, usará la del sistema.</p>
+                        <p className="text-[10px] text-indigo-600 mt-1">
+                            Si la dejas vacía, usará la clave del sistema.
+                        </p>
                     </div>
                 )}
 
@@ -185,7 +228,8 @@ export default function PrototipoCleanPage() {
                             </div>
                             <h3 className="font-medium text-slate-800 mb-2">¡Hola Emprendedor!</h3>
                             <p className="text-sm text-slate-500 px-6">
-                                Cuéntame qué idea de negocio o app tienes en mente. Yo la estructuraré en documentos automáticamente.
+                                Cuéntame qué idea de negocio o app tienes en mente. Yo la estructuraré en documentos
+                                automáticamente.
                             </p>
                         </div>
                     )}
@@ -196,73 +240,85 @@ export default function PrototipoCleanPage() {
                         </div>
                     )}
 
-                    {messages.map(m => (
-                        <div
-                            key={m.id}
-                            className={`flex flex-col max-w-[90%] gap-1 ${m.role === 'user'
-                                ? 'ml-auto items-end'
-                                : 'mr-auto items-start'
-                                }`}
-                        >
-                            <span className="text-[11px] font-semibold text-slate-400 capitalize px-1">
-                                {m.role === 'user' ? 'Tú' : 'Asistente'}
-                            </span>
+                    {messages.map((msg: UIMessage) => {
+                        const text = getMessageText(msg);
+                        const toolParts = getToolParts(msg);
+
+                        if (!text && toolParts.length === 0) return null;
+
+                        return (
                             <div
-                                className={`px-4 py-2.5 rounded-2xl text-[14px] leading-relaxed shadow-sm ${m.role === 'user'
-                                    ? 'bg-indigo-600 text-white rounded-tr-none'
-                                    : 'bg-white border border-slate-100 text-slate-700 rounded-tl-none'
+                                key={msg.id}
+                                className={`flex flex-col max-w-[90%] gap-1 ${msg.role === 'user' ? 'ml-auto items-end' : 'mr-auto items-start'
                                     }`}
                             >
-                                {m.content && <span className="whitespace-pre-wrap">{m.content}</span>}
+                                <span className="text-[11px] font-semibold text-slate-400 capitalize px-1">
+                                    {msg.role === 'user' ? 'Tú' : 'Asistente'}
+                                </span>
+                                <div
+                                    className={`px-4 py-2.5 rounded-2xl text-[14px] leading-relaxed shadow-sm ${msg.role === 'user'
+                                        ? 'bg-indigo-600 text-white rounded-tr-none'
+                                        : 'bg-white border border-slate-100 text-slate-700 rounded-tl-none'
+                                        }`}
+                                >
+                                    {text && <span className="whitespace-pre-wrap">{text}</span>}
 
-                                {/* Render UI for Tool Executions */}
-                                {m.toolInvocations?.map((toolCall) => {
-                                    if (toolCall.toolName === 'create_file' || toolCall.toolName === 'update_file') {
+                                    {/* Render Tool Call badges */}
+                                    {toolParts.map((part) => {
+                                        if (part.type !== 'tool-invocation') return null;
+                                        const ti = part.toolInvocation;
+                                        const args = ti.input as { path?: string };
+                                        if (
+                                            ti.toolName !== 'create_file' &&
+                                            ti.toolName !== 'update_file'
+                                        )
+                                            return null;
                                         return (
-                                            <div key={toolCall.toolCallId} className="mt-2 bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-600 flex items-center gap-2">
-                                                <FileText className="w-3 h-3 text-indigo-500" />
+                                            <div
+                                                key={ti.toolCallId}
+                                                className="mt-2 bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-600 flex items-center gap-2"
+                                            >
+                                                <FileText className="w-3 h-3 text-indigo-500 flex-shrink-0" />
                                                 <span>
-                                                    {toolCall.toolName === 'create_file' ? 'Creando' : 'Actualizando'}:
-                                                    <strong className="ml-1 text-slate-800">{toolCall.args.path}</strong>
+                                                    {ti.toolName === 'create_file' ? '📄 Creando' : '✏️ Actualizando'}:{' '}
+                                                    <strong className="text-slate-800">{args.path}</strong>
                                                 </span>
                                             </div>
                                         );
-                                    }
-                                    return null;
-                                })}
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
+
                     {isLoading && (
                         <div className="flex items-center gap-2 text-slate-400 text-sm mt-2">
                             <Loader2 className="w-4 h-4 animate-spin" />
                             Escribiendo...
                         </div>
                     )}
+                    <div ref={messagesEndRef} />
                 </div>
 
                 <div className="p-4 bg-white border-t border-slate-100">
-                    <form onSubmit={handleSubmit} className="relative flex items-end">
+                    <div className="relative flex items-end">
                         <textarea
-                            value={input}
-                            onChange={handleInputChange}
+                            value={inputText}
+                            onChange={(e) => setInputText(e.target.value)}
+                            onKeyDown={handleKeyDown}
                             placeholder="Ej. Quiero crear un Uber de mascotas..."
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-12 pl-4 py-3 min-h-[50px] max-h-[120px] resize-none outline-none focus:ring-2 ring-indigo-500/20 text-sm overflow-y-auto"
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
-                                    e.preventDefault();
-                                    e.currentTarget.form?.requestSubmit();
-                                }
-                            }}
+                            disabled={isLoading}
                         />
                         <button
-                            type="submit"
-                            disabled={!input?.trim() || isLoading}
+                            type="button"
+                            onClick={handleSend}
+                            disabled={!inputText?.trim() || isLoading}
                             className="absolute right-2 bottom-2 w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 disabled:opacity-50 disabled:hover:bg-indigo-600 transition-colors shadow-sm"
                         >
                             <ArrowRight className="w-4 h-4" />
                         </button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
