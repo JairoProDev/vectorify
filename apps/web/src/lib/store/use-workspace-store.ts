@@ -58,6 +58,8 @@ interface WorkspaceState {
 
   // Files
   files: WorkspaceFile[];
+  activeFileId: string | null;
+  setActiveFileId: (id: string | null) => void;
   setFiles: (files: WorkspaceFile[]) => void;
   addFile: (file: WorkspaceFile) => void;
   updateFile: (id: string, updates: Partial<WorkspaceFile>) => void;
@@ -126,8 +128,10 @@ export const useWorkspaceStore = create<WorkspaceState>()(
 
         // Files
         files: [],
+        activeFileId: null,
+        setActiveFileId: (id) => set({ activeFileId: id }),
         setFiles: (files) => set({ files }),
-        addFile: (file) => set((state) => ({ files: [...state.files, file] })),
+        addFile: (file) => set((state) => ({ files: [...state.files, file], activeFileId: state.activeFileId ?? file.id })),
         updateFile: (id, updates) =>
           set((state) => ({
             files: state.files.map((f) => (f.id === id ? { ...f, ...updates } : f)),
@@ -135,6 +139,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
         deleteFile: (id) =>
           set((state) => ({
             files: state.files.filter((f) => f.id !== id && f.parentId !== id),
+            activeFileId: state.activeFileId === id ? null : state.activeFileId,
           })),
         getFileContent: (path) => {
           return get().files.find(f => f.path === path)?.content;
@@ -169,6 +174,7 @@ export const useWorkspaceStore = create<WorkspaceState>()(
           copilotOpen: state.copilotOpen,
           activeSidebarView: state.activeSidebarView,
           files: state.files,
+          activeFileId: state.activeFileId,
         }),
       }
     ),

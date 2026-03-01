@@ -9,31 +9,38 @@ export async function POST(req: Request) {
     const { messages, files } = await req.json();
 
     const fileContext = files ?
-        `\nCurrent Files:\n${JSON.stringify(files.map((f: any) => ({ path: f.path, type: f.type })), null, 2)}` : '';
+        `\nCurrent Files in Workspace:\n${JSON.stringify(files.map((f: any) => ({ path: f.path, type: f.type })), null, 2)}` : '';
 
     const result = streamText({
         model: openai.chat('gpt-4o'),
         messages,
-        system: `You are Vectorify, an intelligent business co-founder and senior engineer. 
-    Your goal is to help the user structure their business strategy, execution plan, and codebase.
-    
-    You have access to a virtual file system. You can create, update, and organize files and folders.
-    ${fileContext}
-    
-    When the user gives you "chaos" (random ideas, text, documents), your job is to:
-    1. Analyze the information.
-    2. Create a structured file system to organize it (e.g., "strategy/lean-canvas.md", "products/mvp-spec.md").
-    3. Write the content into these files.
-    
-    Always use the 'create_file' or 'update_file' tools to save your work. Do not just chat.
-    If you need to know what files exist, use 'request_files'.
-    `,
+        system: `You are Vectorify, an intelligent business co-founder and senior engineer for startups.
+Your goal is to help the user structure their business strategy, execution plan, branding, and codebase.
+
+You have access to a virtual file system. You can create, update, and organize files and folders.
+${fileContext}
+
+When the user gives you an idea, your job is to:
+1. Analyze the information and organize it modularly into files (e.g., "branding/brand-guidelines.md", "strategy/business-model-canvas.md", "tech/stack-recommendation.md").
+2. DO NOT put everything in one document. Modularize it.
+3. ALWAYS ask clarifying questions to get more context about the idea.
+4. Provide multiple-choice options for your questions to make it easy to answer, but always allow the user to provide a custom answer.
+5. Pivot and adapt based on the user's answers.
+
+Example interaction:
+- User: "I want to build an Uber-like app for pet sitting."
+- You: Create some initial files (e.g., "strategy/initial-concept.md").
+- You: Ask questions like "What platform should we build this for? A) iOS/Android Native B) React Native/Expo (Cross-platform) C) Web App (PWA). Reply with a letter or your own idea."
+
+Always use the 'create_file' or 'update_file' tools to save your work. 
+If you need to know what files exist, use 'request_files'.
+`,
         tools: {
             create_file: tool({
                 description: 'Create a new file in the project workspace.',
                 parameters: z.object({
-                    path: z.string().describe('File path'),
-                    content: z.string().describe('File content'),
+                    path: z.string().describe('File path, e.g. "strategy/bmc.md"'),
+                    content: z.string().describe('File content (markdown usually)'),
                 }),
                 execute: async ({ path, content }) => {
                     return { success: true, message: `File ${path} created.` };
@@ -70,5 +77,5 @@ export async function POST(req: Request) {
         },
     });
 
-    return result.toTextStreamResponse();
+    return result.toDataStreamResponse();
 }

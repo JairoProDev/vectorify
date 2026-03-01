@@ -18,7 +18,7 @@ import { useI18n } from '@/i18n/hooks';
 import { cn } from '@/lib/utils';
 
 export function Sidebar() {
-  const { currentProject, files } = useWorkspaceStore();
+  const { currentProject, files, activeFileId, setActiveFileId } = useWorkspaceStore();
   const { t } = useI18n();
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState('');
@@ -62,10 +62,13 @@ export function Sidebar() {
         return (
           <Button
             key={fullPath}
-            variant="ghost"
+            variant={activeFileId === value.id ? "secondary" : "ghost"}
             size="sm"
-            className="w-full justify-start gap-2 px-2 pl-6 hover:bg-accent h-7"
+            className={cn("w-full justify-start gap-2 px-2 pl-6 h-7",
+              activeFileId === value.id ? "bg-accent text-accent-foreground" : "hover:bg-accent"
+            )}
             title={fullPath}
+            onClick={() => setActiveFileId(value.id)}
           >
             <FileText className="h-4 w-4 text-blue-400" />
             <span className="truncate text-xs">{key}</span>
